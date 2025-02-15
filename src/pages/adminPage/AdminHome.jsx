@@ -8,7 +8,8 @@ const AdminHome = () => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const tabId = sessionStorage.getItem('tabId'); // ดึง tabId จาก sessionStorage
+        const tabId = sessionStorage.getItem('tabId');
+        console.log("🔍 Tab ID:", tabId);
         const response = await api.get('/auth/check-session', {
           headers: { 'x-tab-id': tabId }, // ส่ง tabId ใน Header
         });
