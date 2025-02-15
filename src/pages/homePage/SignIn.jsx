@@ -17,41 +17,31 @@ import HomeIcon from '@mui/icons-material/Home';
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
+// ✅ กำหนดโครงสร้าง Layout หลัก
 const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
   height: '100vh',
-  overflow: 'auto', // ✅ เพิ่ม overflow เพื่อให้ Scroll ได้
-  padding: '1rem',
+  flexDirection: 'row',
   [theme.breakpoints.down('sm')]: {
-    height: 'auto', // ✅ ป้องกันการตัด Layout บนมือถือ
+    flexDirection: 'column',
+    height: 'auto',
   },
 }));
 
 const LeftContainer = styled(Box)(({ theme }) => ({
   flex: 1,
-  backgroundColor: '#F7941E',
+  backgroundColor: '#FFA64D',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  textAlign: 'center',
   padding: '2rem',
   color: '#fff',
-  textAlign: 'center',
   [theme.breakpoints.down('sm')]: {
-    flex: 'none',
     padding: '1rem',
   },
 }));
-
-const LogoImage = styled('img')({
-  width: '100%',
-  maxWidth: '350px', // Adjusted for better scaling
-  height: 'auto',
-  objectFit: 'contain',
-});
 
 const RightContainer = styled(Box)(({ theme }) => ({
   flex: 1,
@@ -60,6 +50,8 @@ const RightContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   padding: '2rem',
+  position: 'relative',
+  overflow: 'auto',
   [theme.breakpoints.down('sm')]: {
     padding: '1rem',
   },
@@ -81,11 +73,15 @@ const StyledButton = styled(Button)({
   borderRadius: '8px',
 });
 
-const BackButton = styled(IconButton)({
+const HomeButton = styled(IconButton)({
   position: 'absolute',
   bottom: '20px',
   right: '20px',
-  color: '#000',
+  backgroundColor: '#FFA64D',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#FF8C00',
+  },
 });
 
 export default function SignIn() {
@@ -93,6 +89,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
 
+  // ✅ ตรวจสอบและเก็บ Tab ID ใน sessionStorage
   useEffect(() => {
     if (!sessionStorage.getItem('tabId')) {
       sessionStorage.setItem('tabId', `${Date.now()}-${Math.random()}`);
@@ -118,11 +115,13 @@ export default function SignIn() {
         navigate(role === 'teacher' ? '/adminHome' : '/studentHome');
       }, 1500);
     } catch (error) {
+      setErrors({
+        email: 'Email หรือ Password ไม่ถูกต้อง',
+      });
       showSnackbar(
         error.response?.data?.error || 'เข้าสู่ระบบไม่สำเร็จ',
         'error'
       );
-      console.error('Failed to login:', setErrors);
     }
   };
 
@@ -130,18 +129,23 @@ export default function SignIn() {
     <>
       <CssBaseline />
       <RootContainer>
+        {/* ✅ กล่องซ้าย */}
         <LeftContainer>
-          <LogoImage src="/software.png" alt="IT Logo" />
-        </LeftContainer>
-
-        <RightContainer>
-          <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
+          <img
+            src="/PMS-logo2.svg"
+            alt="IT-PMS Logo"
+            style={{ width: '60%', maxWidth: '250px' }}
+          />
+          <Typography variant="h5" sx={{ mt: 2, fontWeight: 'bold' }}>
             ระบบการจัดการโครงงาน
           </Typography>
-          <Typography variant="body2" sx={{ color: 'gray', mb: 2 }}>
+          <Typography variant="body2">
             กรุณากรอกข้อมูลเพื่อเข้าสู่ระบบ
           </Typography>
+        </LeftContainer>
 
+        {/* ✅ กล่องขวา */}
+        <RightContainer>
           <FormContainer component="form" onSubmit={handleSubmit}>
             <FormControl>
               <FormLabel>Email</FormLabel>
@@ -152,13 +156,13 @@ export default function SignIn() {
                 placeholder="your@email.com"
                 fullWidth
                 required
-                error={!!errors.email}
-                helperText={errors.email || ''}
+                error={!!errors.email} // ✅ ถ้ามี error ให้แสดงเป็น true
+                helperText={errors.email || ''} // ✅ แสดงข้อความ error
               />
             </FormControl>
 
             <FormControl>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>รหัสผ่าน</FormLabel>
               <TextField
                 id="password"
                 name="password"
@@ -171,18 +175,23 @@ export default function SignIn() {
               />
             </FormControl>
 
-            <StyledButton type="submit" variant="contained" fullWidth
-            sx={{
-              backgroundColor: '#FFA64D',
-              '&:hover': { backgroundColor: '#FF8C00' },
-              padding: "12px",
-              fontSize: "1rem",
-              fontWeight: "bold",
-              mt: "1rem",
-              mb: "4rem",
-            }}>
+            <StyledButton
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: '#FFA64D',
+                '&:hover': { backgroundColor: '#FF8C00' },
+                padding: '12px',
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                mt: '1rem',
+                mb: '4rem',
+              }}
+            >
               เข้าสู่ระบบ
             </StyledButton>
+
             <Typography sx={{ textAlign: 'center', mt: 2 }}>
               ยังไม่มีบัญชี?{' '}
               <Link
@@ -194,19 +203,10 @@ export default function SignIn() {
             </Typography>
           </FormContainer>
 
-          <BackButton onClick={() => navigate('/')}>
-            <HomeIcon
-              fontSize="large"
-              sx={{
-                position: 'fixed',
-                bottom: '20px',
-                right: '20px',
-                backgroundColor: '#FFA64D',
-                color: '#fff',
-                '&:hover': { backgroundColor: '#FF8C00' },
-              }}
-            />
-          </BackButton>
+          {/* ✅ ปุ่ม Home */}
+          <HomeButton component={Link} to="/">
+            <HomeIcon />
+          </HomeButton>
         </RightContainer>
       </RootContainer>
     </>
