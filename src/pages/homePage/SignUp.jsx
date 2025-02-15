@@ -16,10 +16,14 @@ import HomeIcon from '@mui/icons-material/Home';
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
-const RootContainer = styled(Box)({
+const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   height: '100vh',
-});
+  flexDirection: 'row',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+  },
+}));
 
 const LeftContainer = styled(Box)({
   flex: 1,
@@ -33,22 +37,24 @@ const LeftContainer = styled(Box)({
   padding: '2rem',
 });
 
-const LogoImage = styled('img')({
-  width: '580px',
-  height: '580px',
+const LogoImage = styled('img')(() => ({
+  width: '100%',
+  maxWidth: '350px',
+  height: 'auto',
   objectFit: 'contain',
-});
+}));
 
-const RightContainer = styled(Box)({
+const RightContainer = styled(Box)(({ theme }) => ({
   flex: 1,
-  backgroundColor: '#fff',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   padding: '2rem',
-  position: 'relative',
-});
+  [theme.breakpoints.down('sm')]: {
+    padding: '1rem',
+  },
+}));
 
 const FormContainer = styled(Box)({
   width: '100%',

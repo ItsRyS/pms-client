@@ -17,39 +17,49 @@ import HomeIcon from "@mui/icons-material/Home";
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
-const RootContainer = styled(Box)({
+const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   height: '100vh',
-});
+  flexDirection: 'row', // Default for larger screens
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column', // Stack items on small screens
+  },
+}));
 
-const LeftContainer = styled(Box)({
+const LeftContainer = styled(Box)(({ theme }) => ({
   flex: 1,
   backgroundColor: '#F7941E',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  padding: '2rem',
   color: '#fff',
   textAlign: 'center',
-  padding: '2rem',
-});
+  [theme.breakpoints.down('sm')]: {
+    flex: 'none',
+    padding: '1rem',
+  },
+}));
 
 const LogoImage = styled('img')({
-  width: '580px',
-  height: '580px',
+  width: '100%',
+  maxWidth: '350px', // Adjusted for better scaling
+  height: 'auto',
   objectFit: 'contain',
 });
 
-const RightContainer = styled(Box)({
+const RightContainer = styled(Box)(({ theme }) => ({
   flex: 1,
-  backgroundColor: '#fff',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
   padding: '2rem',
-  position: 'relative',
-});
+  [theme.breakpoints.down('sm')]: {
+    padding: '1rem',
+  },
+}));
 
 const FormContainer = styled(Box)({
   width: '100%',
