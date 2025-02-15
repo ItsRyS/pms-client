@@ -33,15 +33,7 @@ const COLORS = {
 
 // Memoized User Info Component
 const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: 2,
-      minHeight: { xs: 'auto', sm: '200px' },
-    }}
-  >
+  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 }}>
     {loading ? (
       <>
         <Skeleton variant="circular" width={100} height={100} />
@@ -50,41 +42,12 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
       </>
     ) : (
       <>
-        <Avatar
-          src={
-            profileImage
-              ? `${API_BASE_URL}/${profileImage}`
-              : '/default-avatar.png'
-          }
-          alt={username}
-          sx={{ width: 100, height: 100 }}
-        />
-        <Typography
-          variant="body1"
-          sx={{
-            color: COLORS.text.primary,
-            marginTop: 1,
-            display: { xs: 'none', sm: 'block' },
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {username}
-        </Typography>
-        <Typography
-          variant="body2"
-          sx={{
-            color: COLORS.text.secondary,
-            display: { xs: 'none', sm: 'block' },
-            textTransform: 'capitalize',
-          }}
-        >
-          {role}
-        </Typography>
+        <Avatar src={profileImage ? `${API_BASE_URL}/${profileImage}` : "/default-avatar.png"} sx={{ width: 100, height: 100 }} />
+        <Typography variant="body1">{username}</Typography>
+        <Typography variant="body2" sx={{ textTransform: "capitalize" }}>{role}</Typography>
       </>
     )}
-    <Divider sx={{ borderColor: '#ff0000', width: '100%', mt: 2 }} />
+    <Divider sx={{ width: "100%", mt: 2 }} />
   </Box>
 ));
 
@@ -115,44 +78,28 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
   useOutletContext({ updateUserData });
 
   useEffect(() => {
-    const fetchSession = async () => {
+    const checkSession = async () => {
       try {
-        const response = await api.get('/auth/check-session', {
-          headers: { 'x-tab-id': sessionStorage.getItem('tabId') },
-        });
-        if (response.data.isAuthenticated) {
-          setUsername(response.data.user.username);
-          setRole(response.data.user.role);
-          setProfileImage(response.data.user.profileImage);
-        } else {
-          navigate('/SignIn');
-        }
-      } catch (error) {
-        console.error('Failed to fetch session:', error);
-        showSnackbar(
-          error.response?.data?.message || 'Failed to load user data',
-          'error'
-        );
+        const response = await api.get("/auth/check-session");
+        setUsername(response.data.user.username);
+        setRole(response.data.user.role);
+        setProfileImage(response.data.user.profileImage);
+      } catch {
+        navigate("/SignIn");
       } finally {
         setLoading(false);
       }
     };
-    fetchSession();
-  }, [navigate, showSnackbar]);
+    checkSession();
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {
-      const tabId = sessionStorage.getItem('tabId');
-      if (!tabId) return;
-
-      const response = await api.post('/auth/logout', { tabId });
-      if (response.data.success) {
-        sessionStorage.removeItem('tabId');
-        navigate('/SignIn');
-      }
-    } catch (error) {
-      console.error('Logout failed:', error.response?.data || error.message);
-      showSnackbar('Logout failed', 'error');
+      await api.post("/auth/logout");
+      localStorage.removeItem("token");
+      navigate("/SignIn");
+    } catch {
+      showSnackbar("Logout failed", "error");
     }
   };
 

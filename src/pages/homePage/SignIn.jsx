@@ -89,30 +89,26 @@ export default function SignIn() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
-      email: formData.get('email'),
-      password: formData.get('password'),
+      email: formData.get("email"),
+      password: formData.get("password"),
     };
-    const tabId = sessionStorage.getItem('tabId');
 
-    setErrors({});
     try {
-      const response = await api.post(
-        '/auth/login',
-        { ...data, tabId },
-        { withCredentials: true }
-      );
-      const { role } = response.data;
-      showSnackbar('เข้าสู่ระบบสำเร็จ!', 'success');
+      const response = await api.post("/auth/login", data);
+      const { role, token } = response.data;
+
+      localStorage.setItem("token", token);
+      showSnackbar("เข้าสู่ระบบสำเร็จ!", "success");
+
       setTimeout(() => {
-        navigate(role === 'teacher' ? '/adminHome' : '/studentHome');
+        navigate(role === "teacher" ? "/adminHome" : "/studentHome");
       }, 1500);
     } catch (error) {
-      showSnackbar(
-        error.response?.data?.error || 'เข้าสู่ระบบไม่สำเร็จ',
-        'error'
-      );
+      showSnackbar(error.response?.data?.error || "เข้าสู่ระบบไม่สำเร็จ", "error");
+      console.error("Failed to login:", setErrors);
     }
   };
+
 
   return (
     <>

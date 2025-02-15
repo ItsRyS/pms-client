@@ -12,13 +12,10 @@ function StudentHome() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        let tabId = sessionStorage.getItem("tabId");
-        if (!tabId) {
-          tabId = `${Date.now()}-${Math.random()}`;
-          sessionStorage.setItem("tabId", tabId);
+        const response = await api.get("/auth/check-session");
+        if (!response.data.isAuthenticated) {
+          navigate("/SignIn");
         }
-        const response = await api.get("/auth/check-session", { headers: { "x-tab-id": tabId } });
-        if (!response.data.isAuthenticated) navigate("/SignIn");
       } catch {
         navigate("/SignIn");
       }
@@ -36,15 +33,12 @@ function StudentHome() {
       }
     };
 
-
     checkSession();
     fetchProjects();
   }, [navigate]);
 
   return (
-
-  <ProjectTable rows={projects} loading={loading} />
-
+    <ProjectTable rows={projects} loading={loading} />
   );
 }
 

@@ -8,24 +8,22 @@ const AdminHome = () => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        let tabId = sessionStorage.getItem("tabId");
-        if (!tabId) {
-          tabId = `${Date.now()}-${Math.random()}`;
-          sessionStorage.setItem("tabId", tabId);
+        const response = await api.get("/auth/check-session");
+        if (!response.data.isAuthenticated) {
+          navigate("/SignIn");
         }
-        const response = await api.get("/auth/check-session", { headers: { "x-tab-id": tabId } });
-        if (!response.data.isAuthenticated) navigate("/SignIn");
-      } catch  {
+      } catch {
         navigate("/SignIn");
       }
     };
+
     checkSession();
   }, [navigate]);
 
   return (
     <div>
       <h1>Welcome to Admin Home</h1>
-      {/* ส่วนอื่น ๆ ของหน้า */}
+      {/* เพิ่มเนื้อหาที่ต้องการแสดง */}
     </div>
   );
 };
