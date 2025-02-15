@@ -72,32 +72,34 @@ const UploadDoc = () => {
 
   const handleUpload = async () => {
     if (!file || !docTitle || !docDescription) {
-      showSnackbar('Please fill out all fields.', 'error');
+      showSnackbar("Please fill out all fields.", "error");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('doc_title', docTitle);
-    formData.append('doc_description', docDescription);
-    formData.append('uploaded_by', username);
+    formData.append("file", file);
+    formData.append("doc_title", docTitle);
+    formData.append("doc_description", docDescription);
+    formData.append("uploaded_by", username);
 
     try {
-      const response = await api.post('/document/upload', formData);
-      showSnackbar(response.data.message, 'success');
+      await api.post("/document/upload", formData); // ✅ ไม่ต้องกำหนด `response` ถ้าไม่ใช้งาน
+      showSnackbar("อัปโหลดสำเร็จ!", "success");
 
-      const updatedDocuments = await api.get('/document');
+      const updatedDocuments = await api.get("/document");
       setDocuments(updatedDocuments.data);
 
       setFile(null);
-      setFileName('');
-      setDocTitle('');
-      setDocDescription('');
+      setFileName("");
+      setDocTitle("");
+      setDocDescription("");
     } catch (error) {
-      console.error('Error uploading document:', error);
-      showSnackbar('Failed to upload document.', 'error');
+      console.error("Error uploading document:", error);
+      showSnackbar("Failed to upload document.", "error");
     }
   };
+
+
 
   const handleViewDocument = (docPath) => {
     if (!docPath) {
