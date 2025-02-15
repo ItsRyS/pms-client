@@ -18,10 +18,14 @@ import { useSnackbar } from '../../components/ReusableSnackbar';
 
 const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: '100vh',
-  flexDirection: 'row',
+  overflow: 'auto', // ✅ เพิ่ม overflow เพื่อให้ Scroll ได้
+  padding: '1rem',
   [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column',
+    height: 'auto', // ✅ ป้องกันการตัด Layout บนมือถือ
   },
 }));
 
@@ -169,18 +173,43 @@ export default function SignUp() {
               />
             </FormControl>
 
-            <StyledButton type="submit" variant="contained" fullWidth>
+            <StyledButton type="submit" variant="contained" fullWidth
+            sx={{
+              backgroundColor: '#FFA64D',
+              '&:hover': { backgroundColor: '#FF8C00' },
+              padding: "12px",
+              fontSize: "1rem",
+              fontWeight: "bold",
+              mt: "1rem",
+              mb: "4rem",
+            }}>
               สมัครสมาชิก
             </StyledButton>
             <Typography sx={{ textAlign: 'center', mt: 2 }}>
               มีบัญชีอยู่แล้ว?{' '}
-              <Link href="/signin" sx={{ color: '#F7941E', fontWeight: 'bold' }}>
+              <Link
+                href="/signin"
+                sx={{ color: '#F7941E', fontWeight: 'bold' }}
+              >
                 เข้าสู่ระบบที่นี่
               </Link>
             </Typography>
           </FormContainer>
 
-          <BackButton onClick={() => navigate('/')}> <HomeIcon fontSize="large" /> </BackButton>
+          <BackButton onClick={() => navigate('/')}>
+            {' '}
+            <HomeIcon
+              fontSize="large"
+              sx={{
+                position: 'fixed',
+                bottom: '20px',
+                right: '20px',
+                backgroundColor: '#FFA64D',
+                color: '#fff',
+                '&:hover': { backgroundColor: '#FF8C00' },
+              }}
+            />{' '}
+          </BackButton>
         </RightContainer>
       </RootContainer>
     </>

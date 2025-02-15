@@ -8,21 +8,25 @@ import {
   TextField,
   Typography,
   IconButton,
-  Link
+  Link,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import HomeIcon from "@mui/icons-material/Home";
+import HomeIcon from '@mui/icons-material/Home';
 
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
 const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
   height: '100vh',
-  flexDirection: 'row', // Default for larger screens
+  overflow: 'auto', // ✅ เพิ่ม overflow เพื่อให้ Scroll ได้
+  padding: '1rem',
   [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column', // Stack items on small screens
+    height: 'auto', // ✅ ป้องกันการตัด Layout บนมือถือ
   },
 }));
 
@@ -99,26 +103,28 @@ export default function SignIn() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
-      email: formData.get("email"),
-      password: formData.get("password"),
+      email: formData.get('email'),
+      password: formData.get('password'),
     };
 
     try {
-      const response = await api.post("/auth/login", data);
+      const response = await api.post('/auth/login', data);
       const { role, token } = response.data;
 
-      localStorage.setItem("token", token);
-      showSnackbar("เข้าสู่ระบบสำเร็จ!", "success");
+      localStorage.setItem('token', token);
+      showSnackbar('เข้าสู่ระบบสำเร็จ!', 'success');
 
       setTimeout(() => {
-        navigate(role === "teacher" ? "/adminHome" : "/studentHome");
+        navigate(role === 'teacher' ? '/adminHome' : '/studentHome');
       }, 1500);
     } catch (error) {
-      showSnackbar(error.response?.data?.error || "เข้าสู่ระบบไม่สำเร็จ", "error");
-      console.error("Failed to login:", setErrors);
+      showSnackbar(
+        error.response?.data?.error || 'เข้าสู่ระบบไม่สำเร็จ',
+        'error'
+      );
+      console.error('Failed to login:', setErrors);
     }
   };
-
 
   return (
     <>
@@ -165,19 +171,41 @@ export default function SignIn() {
               />
             </FormControl>
 
-            <StyledButton type="submit" variant="contained" fullWidth>
+            <StyledButton type="submit" variant="contained" fullWidth
+            sx={{
+              backgroundColor: '#FFA64D',
+              '&:hover': { backgroundColor: '#FF8C00' },
+              padding: "12px",
+              fontSize: "1rem",
+              fontWeight: "bold",
+              mt: "1rem",
+              mb: "4rem",
+            }}>
               เข้าสู่ระบบ
             </StyledButton>
             <Typography sx={{ textAlign: 'center', mt: 2 }}>
               ยังไม่มีบัญชี?{' '}
-              <Link href="/signup" sx={{ color: '#F7941E', fontWeight: 'bold' }}>
+              <Link
+                href="/signup"
+                sx={{ color: '#F7941E', fontWeight: 'bold' }}
+              >
                 สมัครสมาชิกที่นี่
               </Link>
             </Typography>
           </FormContainer>
 
           <BackButton onClick={() => navigate('/')}>
-            <HomeIcon fontSize="large" />
+            <HomeIcon
+              fontSize="large"
+              sx={{
+                position: 'fixed',
+                bottom: '20px',
+                right: '20px',
+                backgroundColor: '#FFA64D',
+                color: '#fff',
+                '&:hover': { backgroundColor: '#FF8C00' },
+              }}
+            />
           </BackButton>
         </RightContainer>
       </RootContainer>
