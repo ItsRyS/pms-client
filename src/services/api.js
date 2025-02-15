@@ -3,10 +3,10 @@ import axios from 'axios';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
 
 const api = axios.create({
-  baseURL: `${API_BASE_URL}/api`,
+  baseURL: import.meta.env.VITE_API_BASE_URL || "https://pms-server-production.up.railway.app/api",
   withCredentials: true,
+  headers: { "Content-Type": "application/json" }
 });
-
 // Interceptor สำหรับใส่ Tab ID ลงใน Headers ของทุกคำขอ
 api.interceptors.request.use(
   (config) => {

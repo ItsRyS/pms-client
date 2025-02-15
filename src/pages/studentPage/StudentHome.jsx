@@ -12,17 +12,15 @@ function StudentHome() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const tabId = sessionStorage.getItem('tabId');
-        console.log("🔍 Tab ID:", tabId);
-        const response = await api.get('/auth/check-session', {
-          headers: { 'x-tab-id': tabId },
-        });
-        if (!response.data.isAuthenticated) {
-          navigate('/SignIn');
+        let tabId = sessionStorage.getItem("tabId");
+        if (!tabId) {
+          tabId = `${Date.now()}-${Math.random()}`;
+          sessionStorage.setItem("tabId", tabId);
         }
-      } catch (error) {
-        console.error('Session check failed:', error);
-        navigate('/SignIn');
+        const response = await api.get("/auth/check-session", { headers: { "x-tab-id": tabId } });
+        if (!response.data.isAuthenticated) navigate("/SignIn");
+      } catch {
+        navigate("/SignIn");
       }
     };
 
