@@ -77,13 +77,15 @@ const UploadDoc = () => {
     }
 
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("doc_title", docTitle);
-    formData.append("doc_description", docDescription);
-    formData.append("uploaded_by", username);
+    formData.append("file", file); // ✅ ตรวจสอบให้แน่ใจว่าไฟล์ถูกแนบ
+  formData.append("doc_title", docTitle.trim());
+  formData.append("doc_description", docDescription.trim());
+  formData.append("uploaded_by", username);
 
     try {
-      await api.post("/document/upload", formData); // ✅ ไม่ต้องกำหนด `response` ถ้าไม่ใช้งาน
+      await api.post("/document/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       showSnackbar("อัปโหลดสำเร็จ!", "success");
 
       const updatedDocuments = await api.get("/document");
