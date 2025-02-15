@@ -13,11 +13,10 @@ import {
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from "@mui/icons-material/Home";
-import * as z from 'zod';
+
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
-// ปรับแต่ง Layout
 const RootContainer = styled(Box)({
   display: 'flex',
   height: '100vh',
@@ -25,7 +24,7 @@ const RootContainer = styled(Box)({
 
 const LeftContainer = styled(Box)({
   flex: 1,
-  backgroundColor: '#F7941E', // สีส้มตามต้นฉบับ
+  backgroundColor: '#F7941E',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -39,7 +38,6 @@ const LogoImage = styled('img')({
   width: '580px',
   height: '580px',
   objectFit: 'contain',
-
 });
 
 const RightContainer = styled(Box)({
@@ -50,7 +48,7 @@ const RightContainer = styled(Box)({
   justifyContent: 'center',
   alignItems: 'center',
   padding: '2rem',
-  position: 'relative', // ให้สามารถวางปุ่มย้อนกลับที่มุมขวาล่างได้
+  position: 'relative',
 });
 
 const FormContainer = styled(Box)({
@@ -73,13 +71,7 @@ const BackButton = styled(IconButton)({
   position: 'absolute',
   bottom: '20px',
   right: '20px',
-  color: '#000', // ปรับเป็นสี #F7941E ถ้าต้องการให้เข้ากับธีม
-});
-
-// Schema สำหรับตรวจสอบข้อมูล
-const signInSchema = z.object({
-  email: z.string().email('กรุณากรอกอีเมลที่ถูกต้อง'),
-  password: z.string().min(6, 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร'),
+  color: '#000',
 });
 
 export default function SignIn() {
@@ -101,19 +93,6 @@ export default function SignIn() {
       password: formData.get('password'),
     };
     const tabId = sessionStorage.getItem('tabId');
-
-    try {
-      signInSchema.parse(data);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        const fieldErrors = err.formErrors?.fieldErrors || {};
-        setErrors({
-          email: fieldErrors.email ? fieldErrors.email[0] : '',
-          password: fieldErrors.password ? fieldErrors.password[0] : '',
-        });
-      }
-      return;
-    }
 
     setErrors({});
     try {
@@ -139,13 +118,10 @@ export default function SignIn() {
     <>
       <CssBaseline />
       <RootContainer>
-        {/* ด้านซ้าย: โลโก้ และชื่อสถาบัน */}
         <LeftContainer>
           <LogoImage src="/software.png" alt="IT Logo" />
-
         </LeftContainer>
 
-        {/* ด้านขวา: ฟอร์มล็อกอิน */}
         <RightContainer>
           <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
             ระบบการจัดการโครงงาน
@@ -187,15 +163,13 @@ export default function SignIn() {
               เข้าสู่ระบบ
             </StyledButton>
             <Typography sx={{ textAlign: 'center', mt: 2 }}>
-    ยังไม่มีบัญชี?{' '}
-    <Link href="/signup" sx={{ color: '#F7941E', fontWeight: 'bold' }}>
-      สมัครสมาชิกที่นี่
-    </Link>
-  </Typography>
-
+              ยังไม่มีบัญชี?{' '}
+              <Link href="/signup" sx={{ color: '#F7941E', fontWeight: 'bold' }}>
+                สมัครสมาชิกที่นี่
+              </Link>
+            </Typography>
           </FormContainer>
 
-          {/* ปุ่มย้อนกลับที่ขวาล่าง */}
           <BackButton onClick={() => navigate('/')}>
             <HomeIcon fontSize="large" />
           </BackButton>

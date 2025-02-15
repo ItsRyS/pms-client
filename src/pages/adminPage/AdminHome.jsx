@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../../services/api'; // แก้ไขให้เรียกใช้ `api` แทน verifyToken
+import api from '../../services/api';
 
 const AdminHome = () => {
   const navigate = useNavigate();
