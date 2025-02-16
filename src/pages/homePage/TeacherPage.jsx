@@ -50,8 +50,12 @@ const TeacherPage = () => {
         setTeachers(response.data);
         setFilteredTeachers(response.data);
 
-        const uniqueAcademic = [...new Set(response.data.map((teacher) => teacher.teacher_academic))];
-        const uniqueExpertise = [...new Set(response.data.map((teacher) => teacher.teacher_expert))];
+        const uniqueAcademic = [
+          ...new Set(response.data.map((teacher) => teacher.teacher_academic)),
+        ];
+        const uniqueExpertise = [
+          ...new Set(response.data.map((teacher) => teacher.teacher_expert)),
+        ];
 
         setAcademicOptions(uniqueAcademic);
         setExpertiseOptions(uniqueExpertise);
@@ -64,9 +68,13 @@ const TeacherPage = () => {
 
   useEffect(() => {
     const filtered = teachers.filter((teacher) => {
-      const matchesName = teacher.teacher_name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesAcademic = academicFilter === '' || teacher.teacher_academic === academicFilter;
-      const matchesExpertise = expertiseFilter === '' || teacher.teacher_expert === expertiseFilter;
+      const matchesName = teacher.teacher_name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesAcademic =
+        academicFilter === '' || teacher.teacher_academic === academicFilter;
+      const matchesExpertise =
+        expertiseFilter === '' || teacher.teacher_expert === expertiseFilter;
 
       return matchesName && matchesAcademic && matchesExpertise;
     });
@@ -112,7 +120,10 @@ const TeacherPage = () => {
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel>ค้นหาตามตำแหน่ง</InputLabel>
-                  <Select value={academicFilter} onChange={(e) => setAcademicFilter(e.target.value)}>
+                  <Select
+                    value={academicFilter}
+                    onChange={(e) => setAcademicFilter(e.target.value)}
+                  >
                     <MenuItem value="">แสดงทั้งหมด</MenuItem>
                     {academicOptions.map((academic, index) => (
                       <MenuItem key={index} value={academic}>
@@ -125,7 +136,10 @@ const TeacherPage = () => {
               <Grid item xs={12} sm={4}>
                 <FormControl fullWidth>
                   <InputLabel>ค้นหาตามความชำนาญ</InputLabel>
-                  <Select value={expertiseFilter} onChange={(e) => setExpertiseFilter(e.target.value)}>
+                  <Select
+                    value={expertiseFilter}
+                    onChange={(e) => setExpertiseFilter(e.target.value)}
+                  >
                     <MenuItem value="">แสดงทั้งหมด</MenuItem>
                     {expertiseOptions.map((expertise, index) => (
                       <MenuItem key={index} value={expertise}>
@@ -141,7 +155,10 @@ const TeacherPage = () => {
             <Grid container spacing={3}>
               {filteredTeachers.map((teacher) => (
                 <Grid item xs={12} sm={6} md={4} key={teacher.teacher_id}>
-                  <Card onClick={() => handleOpen(teacher)} sx={{ cursor: 'pointer' }}>
+                  <Card
+                    onClick={() => handleOpen(teacher)}
+                    sx={{ cursor: 'pointer' }}
+                  >
                     <CardMedia
                       component="img"
                       sx={{
@@ -155,7 +172,9 @@ const TeacherPage = () => {
                       alt={teacher.teacher_name || 'No Image'}
                     />
                     <CardContent sx={{ textAlign: 'center' }}>
-                      <Typography variant="h6">{teacher.teacher_name}</Typography>
+                      <Typography variant="h6">
+                        {teacher.teacher_name}
+                      </Typography>
                       <Typography variant="body2" color="textSecondary">
                         ตำแหน่ง: {teacher.teacher_academic}
                       </Typography>
@@ -190,30 +209,43 @@ const TeacherPage = () => {
                     <CardMedia
                       component="img"
                       sx={{
-                        maxWidth: '100%',
-                        maxHeight: '50vh',
+                        height: 300,
+                        width: 'auto',
                         objectFit: 'contain',
-                        marginBottom: '24px',
+                        margin: 'auto',
+                        padding: '10px',
                       }}
-                      image={selectedTeacher.teacher_image || placeholderImage}
+                      image={selectedTeacher.teacher_image || placeholderImage} // ✅ ใช้ URL ที่ถูกต้อง
                       alt={selectedTeacher.teacher_name || 'No Image'}
                     />
-                    <Typography variant="h5" gutterBottom sx={{ textAlign: 'center' }}>
+
+                    <Typography
+                      variant="h5"
+                      gutterBottom
+                      sx={{ textAlign: 'center' }}
+                    >
                       {selectedTeacher.teacher_name}
                     </Typography>
                     <Typography variant="body1">
-                      <strong>เบอร์โทรศัพท์:</strong> {selectedTeacher.teacher_phone}
+                      <strong>เบอร์โทรศัพท์:</strong>{' '}
+                      {selectedTeacher.teacher_phone}
                     </Typography>
                     <Typography variant="body1">
                       <strong>อีเมล์:</strong> {selectedTeacher.teacher_email}
                     </Typography>
                     <Typography variant="body1">
-                      <strong>ความชำนาญ:</strong> {selectedTeacher.teacher_expert}
+                      <strong>ความชำนาญ:</strong>{' '}
+                      {selectedTeacher.teacher_expert}
                     </Typography>
                     <Typography variant="body1">
-                      <strong>ตำแหน่ง:</strong> {selectedTeacher.teacher_academic}
+                      <strong>ตำแหน่ง:</strong>{' '}
+                      {selectedTeacher.teacher_academic}
                     </Typography>
-                    <Button onClick={handleClose} variant="contained" sx={{ mt: 2 }}>
+                    <Button
+                      onClick={handleClose}
+                      variant="contained"
+                      sx={{ mt: 2 }}
+                    >
                       ปิด
                     </Button>
                   </>

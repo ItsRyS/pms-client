@@ -21,8 +21,7 @@ import {
 } from '@mui/material';
 import api from '../../services/api'; // Axios instance
 import { useSearchParams } from 'react-router-dom';
-const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+
 
 const TeacherInfo = () => {
   const [teachers, setTeachers] = useState([]);
@@ -184,7 +183,7 @@ const TeacherInfo = () => {
                 <TableCell>
                   {teacher.teacher_image ? (
                     <img
-                      src={`${API_BASE_URL}/upload/pic/${teacher.teacher_image}`}
+                      src={teacher.teacher_image} // ✅ ใช้ URL ที่ถูกต้อง
                       alt={teacher.teacher_name}
                       style={{ width: 50, height: 50, objectFit: 'cover' }}
                     />
@@ -192,6 +191,7 @@ const TeacherInfo = () => {
                     <span>No Image</span>
                   )}
                 </TableCell>
+
                 <TableCell>
                   <Button onClick={() => handleView(teacher)} color="primary">
                     View
@@ -249,7 +249,9 @@ const TeacherInfo = () => {
             </p>
             {viewTeacher.teacher_image && (
               <img
-                src={viewTeacher.teacher_image || 'https://via.placeholder.com/50'} // ถ้าไม่มีรูป ใช้ placeholder
+                src={
+                  viewTeacher.teacher_image || 'https://via.placeholder.com/50'
+                } // ถ้าไม่มีรูป ใช้ placeholder
                 alt={viewTeacher.teacher_name}
                 style={{ width: 50, height: 50, objectFit: 'cover' }}
               />
