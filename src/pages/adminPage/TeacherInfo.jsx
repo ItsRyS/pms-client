@@ -249,9 +249,9 @@ const TeacherInfo = () => {
             </p>
             {viewTeacher.teacher_image && (
               <img
-                src={`http://localhost:5000/upload/pic/${viewTeacher.teacher_image}`}
+                src={viewTeacher.teacher_image || 'https://via.placeholder.com/50'} // ถ้าไม่มีรูป ใช้ placeholder
                 alt={viewTeacher.teacher_name}
-                style={{ width: 100, height: 100, objectFit: 'cover' }}
+                style={{ width: 50, height: 50, objectFit: 'cover' }}
               />
             )}
           </DialogContent>
