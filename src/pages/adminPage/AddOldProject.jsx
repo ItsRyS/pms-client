@@ -98,9 +98,11 @@ const AddOldProject = () => {
       return;
     }
     setPdfLoading(true);
-    setPdfUrl(`http://localhost:5000/${filePath}`);
+    setPdfUrl(filePath);
     setOpenPdfDialog(true);
   };
+
+
   const handleInputChange = (field, value) => {
     setEditedData((prev) => ({ ...prev, [field]: value }));
   };
@@ -134,16 +136,21 @@ const AddOldProject = () => {
     }
 
     try {
+      let response;
       if (isEditMode) {
-        await api.put(`/old-projects/${editingProject.old_id}`, formData, {
+        response = await api.put(`/old-projects/${editingProject.old_id}`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         showSnackbar('Project updated successfully', 'success');
       } else {
-        await api.post('/old-projects', formData, {
+        response = await api.post('/old-projects', formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
         showSnackbar('Project added successfully', 'success');
+      }
+
+      if (response.data.fileUrl) {
+        setEditedData((prev) => ({ ...prev, file_path: response.data.fileUrl })); // ✅ ใช้ URL ที่ได้จาก API
       }
 
       fetchProjects();
@@ -152,6 +159,7 @@ const AddOldProject = () => {
       showSnackbar('Failed to save project', 'error');
     }
   };
+
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this project?'))

@@ -34,10 +34,10 @@ const OldProject = () => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const showSnackbar = useSnackbar();
 
-  // ✅ ใช้ useCallback ป้องกันการสร้างฟังก์ชันใหม่ทุกครั้งที่คอมโพเนนต์รีเรนเดอร์
   const fetchProjects = useCallback(async () => {
     try {
       const response = await api.get('/old-projects');
+      console.log("✅ Old Projects Data:", response.data);
       setProjects(response.data);
     } catch {
       setError(true);
@@ -47,9 +47,10 @@ const OldProject = () => {
     }
   }, [showSnackbar]);
 
+
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]); // ✅ เพิ่ม fetchProjects ใน dependency array
+  }, [fetchProjects]); 
 
   const handleViewDocument = (filePath) => {
     if (!filePath) {
@@ -57,11 +58,11 @@ const OldProject = () => {
       return;
     }
     setPdfLoading(true);
-    const normalizedPath = filePath.replace(/\\/g, '/');
-    const fullPath = `http://localhost:5000/${normalizedPath}`;
-    setPdfPath(fullPath);
+    setPdfPath(filePath);
     setOpenDialog(true);
   };
+
+
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
