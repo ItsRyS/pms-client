@@ -8,11 +8,12 @@ import {
   MenuItem,
   CircularProgress,
   Paper,
+  IconButton,
 } from '@mui/material';
 import api from '../../services/api';
 import { useSearchParams } from 'react-router-dom';
 import { useSnackbar } from '../../components/ReusableSnackbar';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 const ProjectRequest = () => {
   const [projectNameTh, setProjectNameTh] = useState('');
   const [projectNameEng, setProjectNameEng] = useState('');
@@ -46,7 +47,7 @@ const ProjectRequest = () => {
           api.get('/auth/check-session'),
           api.get('/projects/project-types'),
         ]);
-        
+
         const studentUsers = studentResponse.data.filter(
           (user) => user.role === 'student'
         );
@@ -153,7 +154,20 @@ const ProjectRequest = () => {
     selectedAdvisor,
     showSnackbar,
   ]);
+  const handleDeleteRequest = async (requestId) => {
+    try {
+      await api.delete(`/project-requests/delete/${requestId}`);
+      showSnackbar('ลบคำร้องสำเร็จ', 'success');
 
+      // อัปเดตสถานะใหม่
+      setProjectStatus((prevStatus) =>
+        prevStatus.filter((status) => status.request_id !== requestId)
+      );
+    } catch (error) {
+      console.error('Error deleting request:', error);
+      showSnackbar('เกิดข้อผิดพลาดในการลบคำร้อง', 'error');
+    }
+  };
   if (loading) {
     return (
       <Box
@@ -345,13 +359,9 @@ const ProjectRequest = () => {
         <Typography variant="h6" gutterBottom>
           Document Status
         </Typography>
-        {projectStatus.length === 0 ? (
-          <Typography color="textSecondary">
-            ไม่มีประวัติการส่งคำร้อง
-          </Typography>
-        ) : (
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {projectStatus.map((status, index) => (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {projectStatus.length > 0 ? (
+            projectStatus.map((status) => (
               <Box
                 key={status.request_id}
                 sx={{
@@ -359,30 +369,41 @@ const ProjectRequest = () => {
                   borderRadius: 2,
                   backgroundColor:
                     status.status === 'pending'
-                      ? '#FFC107' // สีเหลือง
+                      ? '#9e9e9e'
                       : status.status === 'approved'
-                        ? '#4CAF50' // สีเขียว
-                        : '#F44336', // สีแดง
+                        ? '#4caf50'
+                        : '#f44336',
                   color: '#fff',
-                  border: index === 0 ? '2px solid #000' : 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Typography variant="body1">
-                  <strong>{status.project_name}</strong>
-                </Typography>
-                <Typography variant="body2">
-                  สถานะ:{' '}
-                  {status.status.charAt(0).toUpperCase() +
-                    status.status.slice(1)}
-                </Typography>
-                <Typography variant="body2">
-                  วันที่ส่งคำร้อง:{' '}
-                  {new Date(status.created_at).toLocaleDateString('th-TH')}
-                </Typography>
+                <Box>
+                  <Typography variant="body1">
+                    <strong>{status.project_name}</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    Status:{' '}
+                    {status.status.charAt(0).toUpperCase() +
+                      status.status.slice(1)}
+                  </Typography>
+                </Box>
+
+                {status.status === 'pending' && (
+                  <IconButton
+                    onClick={() => handleDeleteRequest(status.request_id)}
+                    color="error"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
               </Box>
-            ))}
-          </Box>
-        )}
+            ))
+          ) : (
+            <Typography variant="body2">ยังไม่มีคำร้อง</Typography>
+          )}
+        </Box>
       </Paper>
     </Box>
   );
