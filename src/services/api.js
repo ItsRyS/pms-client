@@ -9,16 +9,16 @@ const api = axios.create({
 });
 
 // ✅ Interceptor: เพิ่ม Token ลงใน Header
-api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  console.log('🔍 ส่ง Token:', token); // ✅ Debug ตรวจสอบ Token ที่ถูกส่งไป
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 export default api;
 export { API_BASE_URL };
