@@ -109,6 +109,11 @@ export default function SignIn() {
       const { role, token } = response.data;
 
       localStorage.setItem('token', token);
+      console.log("🔑 Token ที่ถูกเก็บ:", localStorage.getItem("token"));
+      if (token) {
+        const decoded = JSON.parse(atob(token.split(".")[1]));
+        console.log("📅 Token หมดอายุ:", new Date(decoded.exp * 1000));
+      }
       showSnackbar('เข้าสู่ระบบสำเร็จ!', 'success');
 
       setTimeout(() => {
