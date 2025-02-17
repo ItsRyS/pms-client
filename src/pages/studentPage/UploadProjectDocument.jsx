@@ -253,22 +253,27 @@ const UploadProjectDocument = () => {
     const formData = new FormData();
     formData.append('file', file);
 
+    console.log("📤 Resubmitting file:", file.name);
+
     try {
       setLoading(true);
       await api.post(
         `/project-documents/resubmit/${currentDocumentId}`,
-        formData
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
       );
+
       showSnackbar('Document resubmitted successfully.', 'success');
       fetchData();
       handleCloseDialog('resubmit');
     } catch (error) {
-      console.error('Error resubmitting document:', error);
+      console.error('❌ Error resubmitting document:', error);
       showSnackbar('Failed to resubmit document.', 'error');
     } finally {
       setLoading(false);
     }
   };
+
 
   const handleOpenDialog = (type, documentId = null) => {
     setCurrentDocumentId(documentId);
