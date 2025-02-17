@@ -61,11 +61,12 @@ const ProjectRequest = () => {
         const statusResponse = await api.get('/project-requests/status', {
           params: { studentId: user_id },
         });
+        console.log("📌 Project Status Data:", statusResponse.data.data); 
 
         const statuses = statusResponse.data.data.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
         );
-        setProjectStatus(statuses);
+        setProjectStatus(statusResponse.data.data || []);
 
         const hasApproved = statuses.some(
           (status) => status.status === 'approved'
