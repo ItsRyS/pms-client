@@ -156,19 +156,22 @@ const ProfileUser = () => {
         }
 
         // Reset password fields and update initial state
-        setUser(prev => ({
+        setUser((prev) => ({
           ...prev,
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
         }));
-        setInitialUser(prev => ({
+        setInitialUser((prev) => ({
           ...prev,
           username: user.username,
-          email: user.email
+          email: user.email,
         }));
       }
     } catch (err) {
-      showSnackbar(err.response?.data?.error || 'Failed to update profile', 'error');
+      showSnackbar(
+        err.response?.data?.error || 'Failed to update profile',
+        'error'
+      );
     }
   };
 
@@ -187,13 +190,19 @@ const ProfileUser = () => {
           <Grid container spacing={4}>
             {/* Left Column - Profile Image */}
             <Grid item xs={12} md={4}>
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
                 <label htmlFor="profile-image-upload">
                   <Tooltip title="คลิกเพื่อเปลี่ยนรูปโปรไฟล์" arrow>
                     <Avatar
                       src={
                         user.profileImage
-                          ? `http://localhost:5000/${user.profileImage}`
+                          ? user.profileImage
                           : 'https://i.pravatar.cc/300'
                       }
                       sx={{
@@ -201,9 +210,7 @@ const ProfileUser = () => {
                         height: 200,
                         cursor: 'pointer',
                         position: 'relative',
-                        '&:hover': {
-                          opacity: 0.8,
-                        },
+                        '&:hover': { opacity: 0.8 },
                       }}
                     >
                       <CameraAlt
@@ -270,7 +277,9 @@ const ProfileUser = () => {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowPassword(!showPassword)}>
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                           </IconButton>
                         </InputAdornment>
@@ -289,8 +298,16 @@ const ProfileUser = () => {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
-                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                          <IconButton
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
                           </IconButton>
                         </InputAdornment>
                       ),

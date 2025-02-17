@@ -109,8 +109,6 @@ const UploadDoc = () => {
       return;
     }
     setLoading(true);
-    //const normalizedPath = docPath.replace(/\\/g, '/');
-    //const fullPath = `http://localhost:5000/${normalizedPath}`;
     setPdfPath(docPath);
     setOpenDialog(true);
   };
