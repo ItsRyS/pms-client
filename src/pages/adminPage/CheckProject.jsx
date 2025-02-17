@@ -15,7 +15,7 @@ import { useSearchParams } from 'react-router-dom';
 const CheckProject = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filterStatus, setFilterStatus] = useState('all'); // เก็บสถานะที่ต้องการกรอง
+  const [filterStatus, setFilterStatus] = useState('all');
   const [searchParams] = useSearchParams();
   useEffect(() => {
     const fetchRequests = async () => {
@@ -37,10 +37,7 @@ const CheckProject = () => {
 
   const handleStatusUpdate = async (requestId, status) => {
     try {
-      // เรียก Endpoint อัปเดตสถานะ
       await api.put('/projects/update-status', { requestId, status });
-
-      // อัปเดตสถานะใน UI
       setRequests((prev) =>
         prev.map((request) =>
           request.request_id === requestId ? { ...request, status } : request
@@ -72,16 +69,15 @@ const CheckProject = () => {
 
   return (
     <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
-      {/* หัวข้อและตัวเลือกกรอง */}
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} md={6}>
           <Typography variant="h5" gutterBottom>
-            Approve or Reject Projects
+            หน้าตรวจสอบคำร้องโครงงาน
           </Typography>
         </Grid>
         <Grid item xs={12} md={6}>
           <FormControl fullWidth>
-            <InputLabel id="status-filter-label">Filter Status</InputLabel>
+            <InputLabel id="status-filter-label">กรอกสถานะ</InputLabel>
             <Select
               labelId="status-filter-label"
               value={filterStatus}
