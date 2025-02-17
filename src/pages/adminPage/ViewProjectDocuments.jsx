@@ -65,24 +65,38 @@ const ViewProjectDocuments = () => {
   const handleAction = async (action, payload = null) => {
     try {
       const endpoint = `/project-documents/${selectedDocument.document_id}/${action}`;
+
       if (action === 'return') {
+        if (!payload) {
+          showSnackbar('กรุณาเลือกไฟล์สำหรับคืนเอกสาร', 'error');
+          return;
+        }
+
         const formData = new FormData();
         formData.append('file', payload);
-        await api.post(endpoint, formData);
+
+        console.log("📤 Sending file:", payload.name); 
+        await api.post(endpoint, formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
+
       } else if (action === 'reject') {
         await api.post(endpoint, { reason: payload });
       } else {
         await api.post(endpoint);
       }
+
       showSnackbar(`Document ${action}ed successfully.`, 'success');
       fetchPendingDocuments();
       setSelectedDocument(null);
       if (action === 'reject') handleCloseRejectDialog();
+
     } catch (error) {
       showSnackbar(`Failed to ${action} document.`, 'error');
-      console.error(`Error ${action}ing document:`, error);
+      console.error(`❌ Error ${action}ing document:`, error);
     }
   };
+
 
   if (loading) {
     return (
