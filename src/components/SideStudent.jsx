@@ -17,7 +17,7 @@ import {
 import { Home, School, Assignment, PresentToAll } from '@mui/icons-material';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
-import api,{ API_BASE_URL } from '../services/api';
+import api from '../services/api';
 import { useSnackbar } from '../components/ReusableSnackbar';
 
 // Constants
@@ -33,7 +33,14 @@ const COLORS = {
 
 // Memoized User Info Component
 const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
-  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 }}>
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: 2,
+    }}
+  >
     {loading ? (
       <>
         <Skeleton variant="circular" width={100} height={100} />
@@ -42,12 +49,17 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
       </>
     ) : (
       <>
-        <Avatar src={profileImage ? `${API_BASE_URL}/${profileImage}` : "/default-avatar.png"} sx={{ width: 100, height: 100 }} />
+        <Avatar
+          src={profileImage || '/default-avatar.png'}
+          sx={{ width: 100, height: 100 }}
+        />
         <Typography variant="body1">{username}</Typography>
-        <Typography variant="body2" sx={{ textTransform: "capitalize" }}>{role}</Typography>
+        <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
+          {role}
+        </Typography>
       </>
     )}
-    <Divider sx={{ width: "100%", mt: 2 }} />
+    <Divider sx={{ width: '100%', mt: 2 }} />
   </Box>
 ));
 
@@ -68,17 +80,28 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
   const showSnackbar = useSnackbar();
   const navigate = useNavigate();
 
-  // ฟังก์ชันสำหรับอัปเดตข้อมูลผู้ใช้
+  // 🔹 ป้องกัน `useOutletContext()` เป็น `null`
+  const outletContext = useOutletContext() || {};
+
+  // ✅ ฟังก์ชันสำหรับอัปเดตข้อมูลผู้ใช้
   const updateUserData = (newUsername, newProfileImage) => {
     if (newUsername) setUsername(newUsername);
     if (newProfileImage) setProfileImage(newProfileImage);
+
+    // 🔄 อัปเดต Session ทันที
+    api
+      .post('/auth/update-session', {
+        username: newUsername,
+        profileImage: newProfileImage,
+      })
+      .catch((error) =>
+        console.error('Failed to update session:', error.message)
+      );
   };
 
-  // ส่งฟังก์ชันนี้ไปยัง ProfileUser ผ่าน useOutletContext
-  const outletContext = useOutletContext();
+  // 🔹 ส่งฟังก์ชัน `updateUserData` ไปยัง `ProfileUser.jsx`
   outletContext.updateUserData = updateUserData;
 
-  // โหลดข้อมูลใหม่ทุกครั้งที่ updateUserData ถูกเรียก
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -94,15 +117,15 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     };
 
     fetchUserData();
-  }, [profileImage]);
+  }, [profileImage]); // ✅ โหลดข้อมูลใหม่เมื่อ `profileImage` เปลี่ยน
 
   const handleLogout = async () => {
     try {
-      await api.post("/auth/logout");
-      localStorage.removeItem("token");
-      navigate("/SignIn");
+      await api.post('/auth/logout');
+      localStorage.removeItem('token');
+      navigate('/SignIn');
     } catch {
-      showSnackbar("Logout failed", "error");
+      showSnackbar('Logout failed', 'error');
     }
   };
 
