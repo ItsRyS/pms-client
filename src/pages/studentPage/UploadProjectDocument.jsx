@@ -156,6 +156,10 @@ const UploadProjectDocument = () => {
   };
 
   const handleSubmit = async () => {
+    if (!file) {
+      showSnackbar('กรุณาเลือกไฟล์สำหรับอัพโหลด', 'error');
+      return;
+    }
     const errorMessage = !file
       ? 'กรุณาเลือกไฟล์สำหรับอัพโหลด'
       : !selectedType
@@ -187,6 +191,7 @@ const UploadProjectDocument = () => {
     formData.append('file', file);
     formData.append('type_id', selectedType);
     formData.append('request_id', approvedProject.request_id);
+    console.log('🚀 FormData:', formData.get('file'), formData.get('request_id'), formData.get('type_id')); // ✅ Debug
 
     try {
       setLoading(true);
