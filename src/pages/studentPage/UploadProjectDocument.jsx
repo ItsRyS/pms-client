@@ -64,12 +64,15 @@ const UploadProjectDocument = () => {
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const showSnackbar = useSnackbar(); // ใช้ useSnackbar
 
-  const handleApiError = useCallback((error, defaultMessage) => {
-    console.error('API Error:', error);
-    const message =
-      error.response?.data?.message || defaultMessage || 'เกิดข้อผิดพลาด';
-    showSnackbar(message, 'error');
-  }, [searchParams, showSnackbar]);
+  const handleApiError = useCallback(
+    (error, defaultMessage) => {
+      console.error('API Error:', error);
+      const message =
+        error.response?.data?.message || defaultMessage || 'เกิดข้อผิดพลาด';
+      showSnackbar(message, 'error');
+    },
+    [searchParams, showSnackbar]
+  );
 
   const fetchData = useCallback(async () => {
     try {
@@ -129,7 +132,6 @@ const UploadProjectDocument = () => {
       console.error('Invalid file path:', filePath);
     }
   };
-
 
   const handleCloseDialog = (type) => {
     setDialog((prev) => ({ ...prev, [type]: false }));
@@ -191,18 +193,30 @@ const UploadProjectDocument = () => {
     formData.append('file', file);
     formData.append('type_id', selectedType);
     formData.append('request_id', approvedProject.request_id);
-    console.log('🚀 FormData:', formData.get('file'), formData.get('request_id'), formData.get('type_id')); // ✅ Debug
+    console.log(
+      '🚀 FormData:',
+      formData.get('file'),
+      formData.get('request_id'),
+      formData.get('type_id')
+    ); // ✅ Debug
 
     try {
       setLoading(true);
-      await api.post('/project-documents/upload', formData);
-      showSnackbar('Document uploaded successfully.', 'success');
+      await api.post('/project-documents/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      showSnackbar('อัพโหลดเอกสารสำเร็จ', 'success');
       setSelectedType('');
       setFile(null);
       fetchData();
     } catch (error) {
       console.error('Error uploading document:', error);
-      showSnackbar('Failed to upload document.', 'error');
+      showSnackbar(
+        error.response?.data?.message || 'เกิดข้อผิดพลาดในการอัพโหลดเอกสาร',
+        'error'
+      );
     } finally {
       setLoading(false);
     }
@@ -548,7 +562,7 @@ const UploadProjectDocument = () => {
             }}
           >
             Choose File
-            <input type="file" hidden onChange={handleFileChange} />
+            <input type="file" accept=".pdf" hidden onChange={handleFileChange} />
           </Button>
           {file && (
             <Typography
