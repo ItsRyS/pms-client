@@ -35,13 +35,17 @@ const ProjectRequest = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [advisorResponse, studentResponse, sessionResponse, projectTypeResponse] =
-          await Promise.all([
-            api.get('/teacher'),
-            api.get('/users'),
-            api.get('/auth/check-session'),
-            api.get('/projects/project-types'),
-          ]);
+        const [
+          advisorResponse,
+          studentResponse,
+          sessionResponse,
+          projectTypeResponse,
+        ] = await Promise.all([
+          api.get('/teacher'),
+          api.get('/users'),
+          api.get('/auth/check-session'),
+          api.get('/projects/project-types'),
+        ]);
 
         const studentUsers = studentResponse.data.filter(
           (user) => user.role === 'student'
@@ -68,7 +72,8 @@ const ProjectRequest = () => {
         setLatestStatus(hasApproved ? 'approved' : statuses[0]?.status || '');
 
         const hasPendingOrApproved = statuses.some(
-          (status) => status.status === 'pending' || status.status === 'approved'
+          (status) =>
+            status.status === 'pending' || status.status === 'approved'
         );
         setHasPendingOrApproved(hasPendingOrApproved);
 
@@ -205,8 +210,8 @@ const ProjectRequest = () => {
             }}
           >
             <Typography>
-              คุณเป็นสมาชิกของโครงงานอื่นที่อยู่ในสถานะ &quot;pending&quot; หรือ &quot;approved&quot; แล้ว
-              ไม่สามารถส่งคำร้องใหม่ได้
+              คุณเป็นสมาชิกของโครงงานอื่นที่อยู่ในสถานะ &quot;pending&quot; หรือ
+              &quot;approved&quot; แล้ว ไม่สามารถส่งคำร้องใหม่ได้
             </Typography>
           </Box>
         ) : null}
@@ -238,7 +243,10 @@ const ProjectRequest = () => {
         >
           {projectTypes.length > 0 ? (
             projectTypes.map((type) => (
-              <MenuItem key={type.project_type_id} value={type.project_type_name}>
+              <MenuItem
+                key={type.project_type_id}
+                value={type.project_type_name}
+              >
                 {type.project_type_name}
               </MenuItem>
             ))
@@ -315,7 +323,8 @@ const ProjectRequest = () => {
         </TextField>
         {hasPendingOrApproved && !isOwner ? (
           <Typography variant="body1" color="error" sx={{ mt: 2 }}>
-            คุณไม่สามารถส่งคำร้องใหม่ได้ เนื่องจากคุณเป็นสมาชิกของโครงงานอื่นอยู่แล้ว
+            คุณไม่สามารถส่งคำร้องใหม่ได้
+            เนื่องจากคุณเป็นสมาชิกของโครงงานอื่นอยู่แล้ว
           </Typography>
         ) : (
           <Button
@@ -336,35 +345,44 @@ const ProjectRequest = () => {
         <Typography variant="h6" gutterBottom>
           Document Status
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {projectStatus.map((status, index) => (
-            <Box
-              key={status.request_id}
-              sx={{
-                padding: 2,
-                borderRadius: 2,
-                backgroundColor:
-                  status.status === 'pending'
-                    ? '#9e9e9e'
-                    : status.status === 'approved'
-                    ? '#4caf50'
-                    : '#f44336',
-                color: '#fff',
-                border: index === 0 ? '2px solid #000' : 'none',
-              }}
-            >
-              <Typography variant="body1">
-                <strong>
-                  {index === 0 ? 'Latest Request:' : ''} {status.project_name}
-                </strong>
-              </Typography>
-              <Typography variant="body2">
-                Status:{' '}
-                {status.status.charAt(0).toUpperCase() + status.status.slice(1)}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
+        {projectStatus.length === 0 ? (
+          <Typography color="textSecondary">
+            ไม่มีประวัติการส่งคำร้อง
+          </Typography>
+        ) : (
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {projectStatus.map((status, index) => (
+              <Box
+                key={status.request_id}
+                sx={{
+                  padding: 2,
+                  borderRadius: 2,
+                  backgroundColor:
+                    status.status === 'pending'
+                      ? '#FFC107' // สีเหลือง
+                      : status.status === 'approved'
+                        ? '#4CAF50' // สีเขียว
+                        : '#F44336', // สีแดง
+                  color: '#fff',
+                  border: index === 0 ? '2px solid #000' : 'none',
+                }}
+              >
+                <Typography variant="body1">
+                  <strong>{status.project_name}</strong>
+                </Typography>
+                <Typography variant="body2">
+                  สถานะ:{' '}
+                  {status.status.charAt(0).toUpperCase() +
+                    status.status.slice(1)}
+                </Typography>
+                <Typography variant="body2">
+                  วันที่ส่งคำร้อง:{' '}
+                  {new Date(status.created_at).toLocaleDateString('th-TH')}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        )}
       </Paper>
     </Box>
   );
