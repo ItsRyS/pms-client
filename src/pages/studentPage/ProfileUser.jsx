@@ -18,7 +18,7 @@ import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
 const ProfileUser = () => {
-  const { updateProfileImage, updateUserData } = useOutletContext();
+
   const [initialUser, setInitialUser] = useState(null);
   const [user, setUser] = useState({
     id: '',
@@ -34,7 +34,8 @@ const ProfileUser = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const showSnackbar = useSnackbar();
-
+  const outletContext = useOutletContext() || {};
+  const { updateUserData } = outletContext;
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -95,20 +96,19 @@ const ProfileUser = () => {
       const response = await api.post('/users/upload-profile-image', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
+
       setUser((prevUser) => ({
         ...prevUser,
         profileImage: response.data.profileImage,
       }));
 
-      if (updateProfileImage) {
-        updateProfileImage(response.data.profileImage);
-      }
-      if (updateUserData) {
+       if (updateUserData) {
         updateUserData(user.username, response.data.profileImage);
       }
 
       showSnackbar('Profile picture updated successfully', 'success');
-    } catch {
+    } catch (error) {
+      console.error('Upload error:', error);
       showSnackbar('Failed to upload profile picture', 'error');
     }
   };
@@ -130,29 +130,21 @@ const ProfileUser = () => {
       };
 
       const response = await api.put(`/users/${user.id}`, payload);
-      if (response.status === 200) {
-        // Detailed success messages
-        if (user.username !== initialUser.username) {
-          showSnackbar('Username updated successfully', 'success');
-        }
-        if (user.email !== initialUser.email) {
-          showSnackbar('Email updated successfully', 'success');
-        }
-        if (user.password) {
-          showSnackbar('Password changed successfully', 'success');
-        }
 
+      if (response.status === 200) {
+        // อัพเดต context ทันทีหลังจากบันทึกสำเร็จ
         if (updateUserData) {
           updateUserData(user.username, user.profileImage);
         }
 
-        const tabId = sessionStorage.getItem('tabId');
-        if (tabId) {
+        // อัพเดต session
+        try {
           await api.post('/auth/update-session', {
-            tabId,
             username: user.username,
             profileImage: user.profileImage,
           });
+        } catch (sessionError) {
+          console.error('Failed to update session:', sessionError);
         }
 
         // Reset password fields and update initial state
@@ -166,6 +158,7 @@ const ProfileUser = () => {
           username: user.username,
           email: user.email,
         }));
+        showSnackbar('Profile updated successfully', 'success');
       }
     } catch (err) {
       showSnackbar(

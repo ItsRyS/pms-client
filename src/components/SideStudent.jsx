@@ -80,36 +80,28 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
   const showSnackbar = useSnackbar();
   const navigate = useNavigate();
 
-  // 🔹 ป้องกัน `useOutletContext()` เป็น `null`
+  // รับ context และส่งต่อไปยัง child components
   const outletContext = useOutletContext() || {};
 
-  // ✅ ฟังก์ชันสำหรับอัปเดตข้อมูลผู้ใช้
+  // สร้างฟังก์ชันสำหรับอัพเดตข้อมูลผู้ใช้
   const updateUserData = (newUsername, newProfileImage) => {
     if (newUsername) setUsername(newUsername);
     if (newProfileImage) setProfileImage(newProfileImage);
-
-    // 🔄 อัปเดต Session ทันที
-    api
-      .post('/auth/update-session', {
-        username: newUsername,
-        profileImage: newProfileImage,
-      })
-      .catch((error) =>
-        console.error('Failed to update session:', error.message)
-      );
   };
 
-  // 🔹 ส่งฟังก์ชัน `updateUserData` ไปยัง `ProfileUser.jsx`
+  // ส่งฟังก์ชัน updateUserData ผ่าน context
   outletContext.updateUserData = updateUserData;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await api.get('/auth/check-session');
-        setUsername(response.data.user.username);
-        setRole(response.data.user.role);
-        setProfileImage(response.data.user.profileImage);
-      } catch {
+        const userData = response.data.user;
+        setUsername(userData.username);
+        setRole(userData.role);
+        setProfileImage(userData.profileImage);
+      } catch (error) {
+        console.error('Session check failed:', error);
         navigate('/SignIn');
       } finally {
         setLoading(false);
@@ -117,7 +109,7 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     };
 
     fetchUserData();
-  }, [profileImage]); // ✅ โหลดข้อมูลใหม่เมื่อ `profileImage` เปลี่ยน
+  }, []); // ✅ โหลดข้อมูลใหม่เมื่อ `profileImage` เปลี่ยน
 
   const handleLogout = async () => {
     try {
