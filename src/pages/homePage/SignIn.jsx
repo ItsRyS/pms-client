@@ -107,16 +107,25 @@ export default function SignIn() {
     try {
       const response = await api.post('/auth/login', data);
       const { role, token } = response.data;
-      console.log("✅ Login Response:", response.data);
+
+      // ตรวจสอบว่าได้รับ token จริง
+      if (!token) {
+        throw new Error('No token received');
+      }
+
+      // บันทึก token
       localStorage.setItem('token', token);
-      console.log("🔑 Token ที่ถูกเก็บ:", localStorage.getItem("token"));
-      console.log("🔑 Token ที่ได้รับ:", response.data.token);
+
+      // ตั้งค่า default headers สำหรับ subsequent requests
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
       showSnackbar('เข้าสู่ระบบสำเร็จ!', 'success');
 
       setTimeout(() => {
         navigate(role === 'teacher' ? '/adminHome' : '/studentHome');
       }, 1500);
     } catch (error) {
+      console.error('Login error:', error);
       setErrors({
         email: 'Email หรือ Password ไม่ถูกต้อง',
       });
