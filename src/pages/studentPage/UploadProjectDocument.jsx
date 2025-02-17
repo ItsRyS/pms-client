@@ -124,15 +124,22 @@ const UploadProjectDocument = () => {
     fetchData();
   }, [searchParams, fetchData]);
 
+  const getFileUrl = (filePath) => {
+    if (!filePath) return null;
+    return filePath; // URL is now already in correct format from backend
+  };
+
+  // In the handleViewDocument function:
   const handleViewDocument = (filePath) => {
-    if (filePath) {
-      setSelectedFilePath(filePath); // ใช้ URL จาก Supabase โดยตรง
+    const url = getFileUrl(filePath);
+    if (url) {
+      setSelectedFilePath(url);
       setDialog((prev) => ({ ...prev, view: true }));
     } else {
       console.error('Invalid file path:', filePath);
+      showSnackbar('ไม่สามารถเปิดเอกสารได้', 'error');
     }
   };
-
   const handleCloseDialog = (type) => {
     setDialog((prev) => ({ ...prev, [type]: false }));
     if (type === 'view') setSelectedFilePath('');
@@ -669,3 +676,5 @@ const UploadProjectDocument = () => {
   );
 };
 export default UploadProjectDocument;
+
+
