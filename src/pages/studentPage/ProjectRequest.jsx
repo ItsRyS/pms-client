@@ -46,7 +46,7 @@ const ProjectRequest = () => {
           api.get('/auth/check-session'),
           api.get('/projects/project-types'),
         ]);
-
+        
         const studentUsers = studentResponse.data.filter(
           (user) => user.role === 'student'
         );
