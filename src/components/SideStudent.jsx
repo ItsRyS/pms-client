@@ -51,7 +51,19 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
       <>
         <Avatar
           src={profileImage || '/default-avatar.png'}
-          sx={{ width: 100, height: 100 }}
+          sx={{
+            width: 100,
+            height: 100,
+            // เพิ่ม error handling สำหรับรูปที่โหลดไม่สำเร็จ
+            '& img': {
+              objectFit: 'cover'
+            }
+          }}
+          imgProps={{
+            onError: (e) => {
+              e.target.src = '/default-avatar.png';
+            }
+          }}
         />
         <Typography variant="body1">{username}</Typography>
         <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
@@ -80,28 +92,41 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
   const showSnackbar = useSnackbar();
   const navigate = useNavigate();
 
-  // รับ context และส่งต่อไปยัง child components
   const outletContext = useOutletContext() || {};
 
-  // สร้างฟังก์ชันสำหรับอัพเดตข้อมูลผู้ใช้
   const updateUserData = (newUsername, newProfileImage) => {
     if (newUsername) setUsername(newUsername);
     if (newProfileImage) setProfileImage(newProfileImage);
+
+    // อัพเดท Session
+    const updateSession = async () => {
+      try {
+        await api.post('/auth/update-session', {
+          username: newUsername,
+          profileImage: newProfileImage,
+        });
+      } catch (error) {
+        console.error('Failed to update session:', error.message);
+      }
+    };
+    updateSession();
   };
 
-  // ส่งฟังก์ชัน updateUserData ผ่าน context
   outletContext.updateUserData = updateUserData;
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        setLoading(true);
         const response = await api.get('/auth/check-session');
         const userData = response.data.user;
+
         setUsername(userData.username);
         setRole(userData.role);
-        setProfileImage(userData.profileImage);
+        setProfileImage(userData.profileImage || '');
+
       } catch (error) {
-        console.error('Session check failed:', error);
+        console.error('Error fetching user data:', error);
         navigate('/SignIn');
       } finally {
         setLoading(false);
@@ -109,7 +134,28 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     };
 
     fetchUserData();
-  }, []); // ✅ โหลดข้อมูลใหม่เมื่อ `profileImage` เปลี่ยน
+  }, []); // ลบ profileImage dependency เพื่อป้องกัน infinite loop
+
+  // สร้าง function แยกสำหรับ refresh user data
+  const refreshUserData = async () => {
+    try {
+      const response = await api.get('/users/me');
+      const userData = response.data;
+
+      setUsername(userData.username);
+      setProfileImage(userData.profile_image || '');
+
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+    }
+  };
+
+  // เพิ่ม effect สำหรับ polling หรือ websocket connection (ถ้าต้องการ)
+  useEffect(() => {
+    // ตัวอย่างการ polling ทุก 1 นาที
+    const interval = setInterval(refreshUserData, 60000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -193,10 +239,6 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
       </Box>
     </>
   );
-
-  if (loading) {
-    return <Typography>Loading...</Typography>;
-  }
 
   return (
     <>
