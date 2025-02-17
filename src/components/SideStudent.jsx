@@ -136,27 +136,7 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     fetchUserData();
   }, []); // ลบ profileImage dependency เพื่อป้องกัน infinite loop
 
-  // สร้าง function แยกสำหรับ refresh user data
-  const refreshUserData = async () => {
-    try {
-      const response = await api.get('/users/me');
-      const userData = response.data;
-
-      setUsername(userData.username);
-      setProfileImage(userData.profile_image || '');
-
-    } catch (error) {
-      console.error('Error refreshing user data:', error);
-    }
-  };
-
-  // เพิ่ม effect สำหรับ polling หรือ websocket connection (ถ้าต้องการ)
-  useEffect(() => {
-    // ตัวอย่างการ polling ทุก 1 นาที
-    const interval = setInterval(refreshUserData, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
+ 
   const handleLogout = async () => {
     try {
       await api.post('/auth/logout');
