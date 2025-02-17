@@ -75,23 +75,26 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
   };
 
   // ส่งฟังก์ชันนี้ไปยัง ProfileUser ผ่าน useOutletContext
-  useOutletContext({ updateUserData });
+  const outletContext = useOutletContext();
+  outletContext.updateUserData = updateUserData;
 
+  // โหลดข้อมูลใหม่ทุกครั้งที่ updateUserData ถูกเรียก
   useEffect(() => {
-    const checkSession = async () => {
+    const fetchUserData = async () => {
       try {
-        const response = await api.get("/auth/check-session");
+        const response = await api.get('/auth/check-session');
         setUsername(response.data.user.username);
         setRole(response.data.user.role);
         setProfileImage(response.data.user.profileImage);
       } catch {
-        navigate("/SignIn");
+        navigate('/SignIn');
       } finally {
         setLoading(false);
       }
     };
-    checkSession();
-  }, [navigate]);
+
+    fetchUserData();
+  }, [profileImage]);
 
   const handleLogout = async () => {
     try {
