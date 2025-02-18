@@ -26,28 +26,36 @@ const ProjectTable = ({ rows, loading }) => {
   const [searchField, setSearchField] = useState('project_name_th');
   const [openDocument, setOpenDocument] = useState(false);
   const [documentUrl, setDocumentUrl] = useState('');
+  const [documentError, setDocumentError] = useState(false);
   const { showSnackbar } = useSnackbar();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleViewDocument = async (projectId) => {
     try {
+      setDocumentError(false);
       const response = await api.get(
         `/project-release/complete-report/${projectId}`
       );
-      if (response.data.success) {
-        const fullDocumentUrl = response.data.documentPath.startsWith('/')
-          ? `${window.location.origin}${response.data.documentPath}`
-          : `${window.location.origin}/${response.data.documentPath}`;
-        setDocumentUrl(fullDocumentUrl);
+
+      if (response.data.success && response.data.documentPath) {
+        // Use the Supabase URL directly without modification
+        setDocumentUrl(response.data.documentPath);
         setOpenDocument(true);
       } else {
-        throw new Error('Document not found');
+        throw new Error('Document path not found');
       }
     } catch (error) {
       console.error('Error fetching document:', error);
-      showSnackbar('Unable to open document. Please try again.', 'error');
+      setDocumentError(true);
+      showSnackbar('ไม่สามารถเปิดเอกสารได้ กรุณาลองใหม่อีกครั้ง', 'error');
     }
+  };
+
+  const handleCloseDocument = () => {
+    setOpenDocument(false);
+    setDocumentUrl('');
+    setDocumentError(false);
   };
 
   const columns = [
@@ -95,6 +103,15 @@ const ProjectTable = ({ rows, loading }) => {
       headerName: 'สถานะ',
       flex: 1,
       minWidth: 100,
+      renderCell: (params) => (
+        <Typography
+          color={
+            params.value === 'complete' ? 'success.main' : 'text.secondary'
+          }
+        >
+          {params.value === 'complete' ? 'เสร็จสมบูรณ์' : 'กำลังดำเนินการ'}
+        </Typography>
+      ),
     },
     {
       field: 'project_create_time',
@@ -166,7 +183,6 @@ const ProjectTable = ({ rows, loading }) => {
             mx: 'auto',
           }}
         >
-          {/* Search Section */}
           <Box sx={{ p: 3, borderBottom: '1px solid #e0e0e0' }}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={4}>
@@ -198,7 +214,6 @@ const ProjectTable = ({ rows, loading }) => {
             </Grid>
           </Box>
 
-          {/* Table Section */}
           <Box sx={{ height: 400, width: '100%' }}>
             <DataGrid
               rows={filteredRows}
@@ -234,10 +249,9 @@ const ProjectTable = ({ rows, loading }) => {
         </Paper>
       </Container>
 
-      {/* Document Dialog */}
       <Dialog
         open={openDocument}
-        onClose={() => setOpenDocument(false)}
+        onClose={handleCloseDocument}
         fullScreen={fullScreen}
         maxWidth={false}
         PaperProps={{
@@ -247,7 +261,7 @@ const ProjectTable = ({ rows, loading }) => {
         <DialogTitle>
           เอกสารฉบับสมบูรณ์
           <IconButton
-            onClick={() => setOpenDocument(false)}
+            onClick={handleCloseDocument}
             sx={{
               position: 'absolute',
               right: 8,
@@ -259,15 +273,15 @@ const ProjectTable = ({ rows, loading }) => {
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{ p: 0 }}>
-          {documentUrl ? (
+          {documentUrl && !documentError ? (
             <iframe
               src={documentUrl}
               width="100%"
               height="100%"
               title="เอกสารฉบับสมบูรณ์"
               style={{ border: 'none' }}
-              onError={(e) => {
-                console.error('iframe loading error:', e);
+              onError={() => {
+                setDocumentError(true);
                 showSnackbar(
                   'ไม่สามารถโหลดเอกสารได้ กรุณาลองใหม่อีกครั้ง',
                   'error'
@@ -275,9 +289,30 @@ const ProjectTable = ({ rows, loading }) => {
               }}
             />
           ) : (
-            <Typography align="center" py={3}>
-              ไม่พบเอกสาร
-            </Typography>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                p: 3,
+              }}
+            >
+              <Typography align="center" color="error" gutterBottom>
+                {documentError ? 'ไม่สามารถโหลดเอกสารได้' : 'ไม่พบเอกสาร'}
+              </Typography>
+              {documentError && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleCloseDocument}
+                  sx={{ mt: 2 }}
+                >
+                  ปิด
+                </Button>
+              )}
+            </Box>
           )}
         </DialogContent>
       </Dialog>
