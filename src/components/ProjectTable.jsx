@@ -32,7 +32,9 @@ const ProjectTable = ({ rows, loading }) => {
 
   const handleViewDocument = async (projectId) => {
     try {
-      const response = await api.get(`/project-release/complete-report/${projectId}`);
+      const response = await api.get(
+        `/project-release/complete-report/${projectId}`
+      );
       if (response.data.success) {
         const fullDocumentUrl = response.data.documentPath.startsWith('/')
           ? `${window.location.origin}${response.data.documentPath}`
@@ -109,35 +111,47 @@ const ProjectTable = ({ rows, loading }) => {
         <Button
           variant="contained"
           size="small"
-          color={params.row.project_status === 'complete' ? 'primary' : 'inherit'}
+          color={
+            params.row.project_status === 'complete' ? 'primary' : 'inherit'
+          }
           disabled={params.row.project_status !== 'complete'}
-          onClick={() => params.row.project_status === 'complete' && handleViewDocument(params.row.project_id)}
+          onClick={() =>
+            params.row.project_status === 'complete' &&
+            handleViewDocument(params.row.project_id)
+          }
           sx={{
             textTransform: 'none',
             fontSize: '0.8rem',
             height: '30px',
           }}
         >
-          {params.row.project_status === 'complete' ? 'ดูเอกสาร' : 'กำลังดำเนินการ'}
+          {params.row.project_status === 'complete'
+            ? 'ดูเอกสาร'
+            : 'กำลังดำเนินการ'}
         </Button>
       ),
     },
   ];
 
   const filteredRows = rows.filter((row) =>
-    row[searchField]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+    row[searchField]
+      ?.toString()
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
 
   return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '90vh',
-      width: '100%',
-      py: 4,
-    }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '90vh',
+        width: '100%',
+        py: 4,
+      }}
+    >
       <Container maxWidth="xl" sx={{ width: '100%' }}>
         <Paper
           elevation={3}
@@ -193,7 +207,7 @@ const ProjectTable = ({ rows, loading }) => {
               rowsPerPageOptions={[5]}
               disableSelectionOnClick
               getRowId={(row) => row.project_id}
-              density='comfortable'
+              density="comfortable"
               loading={loading}
               autoHeight
               sx={{
@@ -252,9 +266,18 @@ const ProjectTable = ({ rows, loading }) => {
               height="100%"
               title="เอกสารฉบับสมบูรณ์"
               style={{ border: 'none' }}
+              onError={(e) => {
+                console.error('iframe loading error:', e);
+                showSnackbar(
+                  'ไม่สามารถโหลดเอกสารได้ กรุณาลองใหม่อีกครั้ง',
+                  'error'
+                );
+              }}
             />
           ) : (
-            <Typography>No document available</Typography>
+            <Typography align="center" py={3}>
+              ไม่พบเอกสาร
+            </Typography>
           )}
         </DialogContent>
       </Dialog>
