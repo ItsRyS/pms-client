@@ -159,80 +159,84 @@ const ViewProjectDocuments = () => {
       </TableContainer>
 
       {selectedDocument && (
-        <Modal
-          open={!!selectedDocument}
-          onClose={() => setSelectedDocument(null)}
+        <Modal open={!!selectedDocument} onClose={() => setSelectedDocument(null)}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: { xs: '95%', md: '80%', lg: '70%' }, // Responsive width
+            maxWidth: '1000px',
+            maxHeight: '90vh', // ป้องกัน Modal ล้นจอ
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            borderRadius: 2,
+            overflow: 'hidden',
+            p: 2,
+          }}
         >
+          <Typography variant="h6" gutterBottom>
+            Document Preview: {selectedDocument.name}
+          </Typography>
+
+          {/* ปรับขนาดของ iframe ให้เต็มที่ตามหน้าจอ */}
           <Box
             sx={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: { xs: '95%', md: '80%' }, 
-              maxWidth: '900px',
-              maxHeight: '90vh',
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-              borderRadius: 2,
+              width: '100%',
+              height: { xs: '55vh', sm: '65vh', md: '75vh' },
               overflow: 'hidden',
-              p: 2,
             }}
           >
-            <Typography variant="h6" gutterBottom>
-              Document Preview: {selectedDocument.name}
-            </Typography>
-
-                 <iframe
+            <iframe
               src={selectedDocument.url}
               width="100%"
-              height="65vh"
+              height="100%"
               style={{ border: 'none' }}
             />
-
-                    <Box
-              sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                gap: 2,
-                mt: 2,
-              }}
-            >
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => handleAction('approve')}
-                sx={{ minWidth: { xs: '100%', md: '150px' }, fontSize: '1rem' }}
-              >
-                ✅ อนุมัติ
-              </Button>
-
-              <Button
-                variant="contained"
-                color="error"
-                onClick={handleOpenRejectDialog}
-                sx={{ minWidth: { xs: '100%', md: '150px' }, fontSize: '1rem' }}
-              >
-                ❌ ไม่อนุมัติ
-              </Button>
-
-              <Button
-                variant="contained"
-                component="label"
-                color="primary"
-                sx={{ minWidth: { xs: '100%', md: '200px' }, fontSize: '1rem' }}
-              >
-                📤 ส่งเอกสารคืน
-                <input
-                  type="file"
-                  hidden
-                  onChange={(e) => handleAction('return', e.target.files[0])}
-                />
-              </Button>
-            </Box>
           </Box>
-        </Modal>
+
+          {/* ปุ่มแสดงผลให้จัดเรียงให้เหมาะสม */}
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap', // ทำให้ปุ่มขึ้นบรรทัดใหม่เมื่อพื้นที่ไม่พอ
+              justifyContent: 'center',
+              gap: 2,
+              paddingBottom: 2, // เพิ่มช่องว่างขอบล่าง
+            }}
+          >
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => handleAction('approve')}
+              sx={{ minWidth: { xs: '100%', sm: '150px' }, fontSize: '1rem' }}
+            >
+              ✅ อนุมัติ
+            </Button>
+
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleOpenRejectDialog}
+              sx={{ minWidth: { xs: '100%', sm: '150px' }, fontSize: '1rem' }}
+            >
+              ❌ ไม่อนุมัติ
+            </Button>
+
+            <Button
+              variant="contained"
+              component="label"
+              color="primary"
+              sx={{ minWidth: { xs: '100%', sm: '200px' }, fontSize: '1rem' }}
+            >
+              📤 ส่งเอกสารคืน
+              <input type="file" hidden onChange={(e) => handleAction('return', e.target.files[0])} />
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
       )}
 
       <Dialog open={openRejectOptions} onClose={handleCloseRejectDialog}>
