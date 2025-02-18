@@ -32,40 +32,60 @@ const COLORS = {
 };
 
 // Memoized User Info Component
-const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
-  <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      padding: 2,
-    }}
-  >
-    {loading ? (
-      <>
-        <Skeleton variant="circular" width={100} height={100} />
-        <Skeleton variant="text" width={120} sx={{ mt: 1 }} />
-        <Skeleton variant="text" width={80} />
-      </>
-    ) : (
-      <>
-        <Avatar
-          src={profileImage}
-          sx={{ width: 100, height: 100, objectFit: 'cover', mx: 'auto' }}
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = '/default-avatar.png';
-          }}
-        />
-        <Typography variant="body1">{username}</Typography>
-        <Typography variant="body2" sx={{ textTransform: 'capitalize' }}>
-          {role}
-        </Typography>
-      </>
-    )}
-    <Divider sx={{ width: '100%', mt: 2 }} />
-  </Box>
-));
+const UserInfo = React.memo(({ username, role, profileImage, loading }) => {
+  const [imgError, setImgError] = useState(false);
+
+  const handleImageError = () => {
+    setImgError(true);
+  };
+
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: 2,
+      }}
+    >
+      {loading ? (
+        <>
+          <Skeleton variant="circular" width={100} height={100} />
+          <Skeleton variant="text" width={120} sx={{ mt: 1 }} />
+          <Skeleton variant="text" width={80} />
+        </>
+      ) : (
+        <>
+          <Avatar
+            src={imgError ? '/default-avatar.png' : profileImage}
+            alt={username}
+            sx={{
+              width: 100,
+              height: 100,
+              objectFit: 'cover',
+              mx: 'auto',
+              border: '2px solid #e0e0e0',
+            }}
+            onError={handleImageError}
+          />
+          <Typography variant="body1" sx={{ mt: 1, fontWeight: 'medium' }}>
+            {username}
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{
+              textTransform: 'capitalize',
+              color: 'text.secondary',
+            }}
+          >
+            {role}
+          </Typography>
+        </>
+      )}
+      <Divider sx={{ width: '100%', mt: 2 }} />
+    </Box>
+  );
+});
 
 UserInfo.displayName = 'UserInfo';
 
@@ -88,9 +108,19 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
 
   const updateUserData = (newUsername, newProfileImage) => {
     if (newUsername) setUsername(newUsername);
-    if (newProfileImage) setProfileImage(newProfileImage);
+    if (newProfileImage) {
+      const supabaseUrl =
+        'https://tgyexptoqpnoxcalnkyo.supabase.co/storage/v1/object/public/profile-images/';
+      const fullImageUrl = `${supabaseUrl}${newProfileImage}`;
 
-    // อัพเดท Session
+      // Validate image URL before updating
+      const img = new Image();
+      img.onload = () => setProfileImage(fullImageUrl);
+      img.onerror = () => setProfileImage('/default-avatar.png');
+      img.src = fullImageUrl;
+    }
+
+    // Update Session
     const updateSession = async () => {
       try {
         await api.post('/auth/update-session', {
@@ -99,6 +129,7 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         });
       } catch (error) {
         console.error('Failed to update session:', error.message);
+        showSnackbar('Failed to update session', 'error');
       }
     };
     updateSession();
@@ -111,21 +142,30 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
       try {
         setLoading(true);
         const response = await api.get('/auth/check-session');
-        console.log('API Response:', response.data.user);
-
         const userData = response.data.user;
+
         setUsername(userData.username);
         setRole(userData.role);
 
         if (userData.profileImage) {
           const supabaseUrl =
             'https://tgyexptoqpnoxcalnkyo.supabase.co/storage/v1/object/public/profile-images/';
-          setProfileImage(`${supabaseUrl}${userData.profileImage}`);
+          const fullImageUrl = `${supabaseUrl}${userData.profileImage}`;
+
+          // Validate image URL before setting
+          const img = new Image();
+          img.onload = () => setProfileImage(fullImageUrl);
+          img.onerror = () => {
+            setProfileImage('/default-avatar.png');
+            console.error('Failed to load profile image');
+          };
+          img.src = fullImageUrl;
         } else {
           setProfileImage('/default-avatar.png');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
+        setProfileImage('/default-avatar.png');
         navigate('/SignIn');
       } finally {
         setLoading(false);
@@ -140,7 +180,8 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
       await api.post('/auth/logout');
       localStorage.removeItem('token');
       navigate('/SignIn');
-    } catch {
+    } catch (error) {
+      console.error('Logout failed:', error);
       showSnackbar('Logout failed', 'error');
     }
   };
