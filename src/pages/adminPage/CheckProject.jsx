@@ -21,12 +21,10 @@ const CheckProject = () => {
     const fetchRequests = async () => {
       try {
         const response = await api.get('/project-requests/all');
-
-        // Debugging: ตรวจสอบข้อมูลที่ได้รับ
         console.log("API Response Data:", response.data);
+        const uniqueRequests = [...new Map(response.data.data.map(item => [item.request_id, item])).values()];
 
-        // แก้ไขให้ setRequests ใช้ response.data.data แทน response.data
-        setRequests(response.data.data || []);
+        setRequests(uniqueRequests);
       } catch (error) {
         console.error('Error fetching project requests:', error.response?.data || error.message);
       } finally {
@@ -36,6 +34,7 @@ const CheckProject = () => {
 
     fetchRequests();
   }, []);
+
 
   const handleStatusUpdate = async (requestId, status) => {
     try {
