@@ -143,7 +143,7 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         setLoading(true);
         const response = await api.get('/auth/check-session');
         const userData = response.data.user;
-
+        console.log('User Data:', userData);
         setUsername(userData.username);
         setRole(userData.role);
 
