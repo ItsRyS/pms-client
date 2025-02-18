@@ -39,7 +39,13 @@ const ProjectTable = ({ rows, loading }) => {
       );
 
       if (response.data.success && response.data.documentPath) {
-        // Use the Supabase URL directly without modification
+        const checkResponse = await fetch(response.data.documentPath, {
+          method: 'HEAD',
+        });
+        if (!checkResponse.ok) {
+          throw new Error('Document not accessible');
+        }
+
         setDocumentUrl(response.data.documentPath);
         setOpenDocument(true);
       } else {
@@ -48,7 +54,10 @@ const ProjectTable = ({ rows, loading }) => {
     } catch (error) {
       console.error('Error fetching document:', error);
       setDocumentError(true);
-      showSnackbar('ไม่สามารถเปิดเอกสารได้ กรุณาลองใหม่อีกครั้ง', 'error');
+      showSnackbar(
+        'ไม่สามารถเปิดเอกสารได้ กรุณาตรวจสอบการตั้งค่า Supabase Storage',
+        'error'
+      );
     }
   };
 
