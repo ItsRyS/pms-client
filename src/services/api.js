@@ -4,18 +4,18 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   'https://pms-server-production-3ccc.up.railway.app/api';
 
-  const api = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json',
+    Accept: 'application/json',
+  },
+  // เพิ่ม credentials options
+  xhrFields: {
     withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    },
-    // เพิ่ม credentials options
-    xhrFields: {
-      withCredentials: true
-    }
-  });
+  },
+});
 
 // ✅ Interceptor: เพิ่ม Token ลงใน Header
 api.interceptors.request.use(

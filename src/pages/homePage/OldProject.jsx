@@ -35,22 +35,24 @@ const OldProject = () => {
   const showSnackbar = useSnackbar();
 
   const fetchProjects = useCallback(async () => {
+    if (loading) return;
+  setLoading(true);
     try {
       const response = await api.get('/old-projects');
-      console.log("✅ Old Projects Data:", response.data);
+      console.log("Old Projects Data:", response.data);
       setProjects(response.data);
     } catch {
       setError(true);
-      showSnackbar('Failed to fetch projects', 'error');
+      showSnackbar('ไม่สามารถโหลดข้อมูลได้', 'error');
     } finally {
       setLoading(false);
     }
-  }, [showSnackbar]);
+  }, [loading, showSnackbar]);
 
 
   useEffect(() => {
     fetchProjects();
-  }, [fetchProjects]); 
+  }, []);
 
   const handleViewDocument = (filePath) => {
     if (!filePath) {
