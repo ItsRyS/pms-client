@@ -33,12 +33,6 @@ const COLORS = {
 
 // Memoized User Info Component
 const UserInfo = React.memo(({ username, role, profileImage, loading }) => {
-  const [imgError, setImgError] = useState(false);
-
-  const handleImageError = () => {
-    setImgError(true);
-  };
-
   return (
     <Box
       sx={{
@@ -57,7 +51,7 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => {
       ) : (
         <>
           <Avatar
-            src={imgError ? '/default-avatar.png' : profileImage}
+            src={profileImage}
             alt={username}
             sx={{
               width: 100,
@@ -66,7 +60,7 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => {
               mx: 'auto',
               border: '2px solid #e0e0e0',
             }}
-            onError={handleImageError}
+            onError={(e) => (e.target.src = '/default-avatar.png')}
           />
           <Typography variant="body1" sx={{ mt: 1, fontWeight: 'medium' }}>
             {username}
@@ -147,19 +141,8 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         setUsername(userData.username);
         setRole(userData.role);
 
-        if (userData.profileImage) {
-          const supabaseUrl =
-            'https://tgyexptoqpnoxcalnkyo.supabase.co/storage/v1/object/public/profile-images/';
-          const fullImageUrl = `${supabaseUrl}${userData.profileImage}`;
-
-          // Validate image URL before setting
-          const img = new Image();
-          img.onload = () => setProfileImage(fullImageUrl);
-          img.onerror = () => {
-            setProfileImage('/default-avatar.png');
-            console.error('Failed to load profile image');
-          };
-          img.src = fullImageUrl;
+        if (userData.profile_image && userData.profile_image !== 'NULL') {
+          setProfileImage(userData.profile_image);
         } else {
           setProfileImage('/default-avatar.png');
         }
