@@ -8,12 +8,11 @@ import {
   TextField,
   Typography,
   IconButton,
-  Link,
+  Link
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
-
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
@@ -206,7 +205,7 @@ export default function SignIn() {
             <Typography sx={{ textAlign: 'center', mt: 2 }}>
               ยังไม่มีบัญชี?{' '}
               <Link
-                href="/signup"
+                onClick={() => navigate('/signup')}
                 sx={{ color: '#F7941E', fontWeight: 'bold' }}
               >
                 สมัครสมาชิกที่นี่
@@ -215,7 +214,7 @@ export default function SignIn() {
           </FormContainer>
 
           {/* ✅ ปุ่ม Home */}
-          <HomeButton component={Link} to="/">
+          <HomeButton onClick={() => navigate('/')}>
             <HomeIcon />
           </HomeButton>
         </RightContainer>
