@@ -40,8 +40,10 @@ const ProjectTable = ({ rows, loading }) => {
 
       if (response.data.success && response.data.documentPath) {
         const checkResponse = await fetch(response.data.documentPath, {
-          method: 'HEAD',
+          method: 'GET',
+          headers: { 'Cache-Control': 'no-cache' },
         });
+
         if (!checkResponse.ok) {
           throw new Error('Document not accessible');
         }
