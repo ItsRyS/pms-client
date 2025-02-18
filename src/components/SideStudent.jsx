@@ -50,19 +50,11 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
     ) : (
       <>
         <Avatar
-          src={profileImage || '/default-avatar.png'}
-          sx={{
-            width: 100,
-            height: 100,
-            // เพิ่ม error handling สำหรับรูปที่โหลดไม่สำเร็จ
-            '& img': {
-              objectFit: 'cover'
-            }
-          }}
-          imgProps={{
-            onError: (e) => {
-              e.target.src = '/default-avatar.png';
-            }
+          src={profileImage}
+          sx={{ width: 100, height: 100, objectFit: 'cover', mx: 'auto' }}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/default-avatar.png';
           }}
         />
         <Typography variant="body1">{username}</Typography>
@@ -119,12 +111,19 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
       try {
         setLoading(true);
         const response = await api.get('/auth/check-session');
-        const userData = response.data.user;
+        console.log('API Response:', response.data.user);
 
+        const userData = response.data.user;
         setUsername(userData.username);
         setRole(userData.role);
-        setProfileImage(userData.profileImage || '');
 
+        if (userData.profileImage) {
+          const supabaseUrl =
+            'https://tgyexptoqpnoxcalnkyo.supabase.co/storage/v1/object/public/profile-images/';
+          setProfileImage(`${supabaseUrl}${userData.profileImage}`);
+        } else {
+          setProfileImage('/default-avatar.png');
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
         navigate('/SignIn');
@@ -134,9 +133,8 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     };
 
     fetchUserData();
-  }, []); // ลบ profileImage dependency เพื่อป้องกัน infinite loop
+  }, [navigate]);
 
- 
   const handleLogout = async () => {
     try {
       await api.post('/auth/logout');
