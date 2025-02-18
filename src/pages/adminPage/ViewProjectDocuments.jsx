@@ -169,29 +169,33 @@ const ViewProjectDocuments = () => {
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              width: '90%',
-              height: 'calc(100vh - 32px)',
+              width: { xs: '95%', md: '80%' }, 
+              maxWidth: '900px',
+              maxHeight: '90vh',
               bgcolor: 'background.paper',
               boxShadow: 24,
               borderRadius: 2,
               overflow: 'hidden',
+              p: 2,
             }}
           >
             <Typography variant="h6" gutterBottom>
               Document Preview: {selectedDocument.name}
             </Typography>
-            <iframe
+
+                 <iframe
               src={selectedDocument.url}
               width="100%"
-              height="80%"
-              title="Document Viewer"
+              height="65vh"
               style={{ border: 'none' }}
             />
-            <Box
+
+                    <Box
               sx={{
                 display: 'flex',
-                justifyContent: 'center', // ปรับให้ปุ่มอยู่ตรงกลาง
-                gap: 2, // เพิ่มระยะห่างระหว่างปุ่ม
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                gap: 2,
                 mt: 2,
               }}
             >
@@ -199,7 +203,7 @@ const ViewProjectDocuments = () => {
                 variant="contained"
                 color="success"
                 onClick={() => handleAction('approve')}
-                sx={{ minWidth: 150, fontSize: '1rem', borderRadius: '8px' }}
+                sx={{ minWidth: { xs: '100%', md: '150px' }, fontSize: '1rem' }}
               >
                 ✅ อนุมัติ
               </Button>
@@ -208,7 +212,7 @@ const ViewProjectDocuments = () => {
                 variant="contained"
                 color="error"
                 onClick={handleOpenRejectDialog}
-                sx={{ minWidth: 150, fontSize: '1rem', borderRadius: '8px' }}
+                sx={{ minWidth: { xs: '100%', md: '150px' }, fontSize: '1rem' }}
               >
                 ❌ ไม่อนุมัติ
               </Button>
@@ -217,9 +221,9 @@ const ViewProjectDocuments = () => {
                 variant="contained"
                 component="label"
                 color="primary"
-                sx={{ minWidth: 200, fontSize: '1rem', borderRadius: '8px' }}
+                sx={{ minWidth: { xs: '100%', md: '200px' }, fontSize: '1rem' }}
               >
-                🔄 ส่งเอกสารคืน
+                📤 ส่งเอกสารคืน
                 <input
                   type="file"
                   hidden
