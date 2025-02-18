@@ -16,7 +16,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
-// ✅ กำหนดโครงสร้าง Layout หลัก
+//  กำหนดโครงสร้าง Layout หลัก
 const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   height: '100vh',
@@ -88,7 +88,7 @@ export default function SignIn() {
   const navigate = useNavigate();
   const showSnackbar = useSnackbar();
 
-  // ✅ ตรวจสอบและเก็บ Tab ID ใน sessionStorage
+  //  ตรวจสอบและเก็บ Tab ID ใน sessionStorage
   useEffect(() => {
     if (!sessionStorage.getItem('tabId')) {
       sessionStorage.setItem('tabId', `${Date.now()}-${Math.random()}`);
@@ -139,7 +139,7 @@ export default function SignIn() {
     <>
       <CssBaseline />
       <RootContainer>
-        {/* ✅ กล่องซ้าย */}
+        {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
             src="/PMS-logo2.svg"
@@ -154,7 +154,7 @@ export default function SignIn() {
           </Typography>
         </LeftContainer>
 
-        {/* ✅ กล่องขวา */}
+        {/*  กล่องขวา */}
         <RightContainer>
           <FormContainer component="form" onSubmit={handleSubmit}>
             <FormControl>
@@ -166,8 +166,8 @@ export default function SignIn() {
                 placeholder="your@email.com"
                 fullWidth
                 required
-                error={!!errors.email} // ✅ ถ้ามี error ให้แสดงเป็น true
-                helperText={errors.email || ''} // ✅ แสดงข้อความ error
+                error={!!errors.email} //  ถ้ามี error ให้แสดงเป็น true
+                helperText={errors.email || ''} //  แสดงข้อความ error
               />
             </FormControl>
 
@@ -213,7 +213,7 @@ export default function SignIn() {
             </Typography>
           </FormContainer>
 
-          {/* ✅ ปุ่ม Home */}
+          {/*  ปุ่ม Home */}
           <HomeButton onClick={() => navigate('/')}>
             <HomeIcon />
           </HomeButton>

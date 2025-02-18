@@ -183,7 +183,7 @@ const TeacherInfo = () => {
                 <TableCell>
                   {teacher.teacher_image ? (
                     <img
-                      src={teacher.teacher_image} // ✅ ใช้ URL ที่ถูกต้อง
+                      src={teacher.teacher_image} //  ใช้ URL ที่ถูกต้อง
                       alt={teacher.teacher_name}
                       style={{ width: 50, height: 50, objectFit: 'cover' }}
                     />

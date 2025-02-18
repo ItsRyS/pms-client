@@ -22,10 +22,10 @@ const CheckProject = () => {
       try {
         const response = await api.get('/project-requests/all');
 
-        // ✅ Debugging: ตรวจสอบข้อมูลที่ได้รับ
+        // Debugging: ตรวจสอบข้อมูลที่ได้รับ
         console.log("API Response Data:", response.data);
 
-        // ✅ แก้ไขให้ setRequests ใช้ response.data.data แทน response.data
+        // แก้ไขให้ setRequests ใช้ response.data.data แทน response.data
         setRequests(response.data.data || []);
       } catch (error) {
         console.error('Error fetching project requests:', error.response?.data || error.message);
@@ -51,7 +51,7 @@ const CheckProject = () => {
     }
   };
 
-  // ✅ Debugging: ตรวจสอบค่าของ filterStatus และ requests ก่อนกรอง
+  //  Debugging: ตรวจสอบค่าของ filterStatus และ requests ก่อนกรอง
   console.log("Filter Status:", filterStatus);
   console.log("Requests Before Filtering:", requests);
 
@@ -62,7 +62,7 @@ const CheckProject = () => {
         : requests.filter((request) => request.status === filterStatus)
       : [];
 
-  // ✅ Debugging: ตรวจสอบว่าหลังจากกรองข้อมูลแล้ว filteredRequests เป็นอย่างไร
+  //  Debugging: ตรวจสอบว่าหลังจากกรองข้อมูลแล้ว filteredRequests เป็นอย่างไร
   console.log("Requests After Filtering:", filteredRequests);
 
   if (loading) {

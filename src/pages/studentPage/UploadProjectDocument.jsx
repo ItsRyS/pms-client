@@ -201,11 +201,11 @@ const UploadProjectDocument = () => {
     formData.append('type_id', selectedType);
     formData.append('request_id', approvedProject.request_id);
     console.log(
-      '🚀 FormData:',
+      'FormData:',
       formData.get('file'),
       formData.get('request_id'),
       formData.get('type_id')
-    ); // ✅ Debug
+    );
 
     try {
       setLoading(true);
@@ -267,7 +267,7 @@ const UploadProjectDocument = () => {
       fetchData();
       handleCloseDialog('resubmit');
     } catch (error) {
-      console.error('❌ Error resubmitting document:', error);
+      console.error(' Error resubmitting document:', error);
       showSnackbar('Failed to resubmit document.', 'error');
     } finally {
       setLoading(false);

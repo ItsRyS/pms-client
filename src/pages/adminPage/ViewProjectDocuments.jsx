@@ -75,7 +75,7 @@ const ViewProjectDocuments = () => {
         const formData = new FormData();
         formData.append('file', payload);
 
-        console.log("📤 Sending file:", payload.name); 
+        console.log("📤 Sending file:", payload.name);
         await api.post(endpoint, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
@@ -93,7 +93,7 @@ const ViewProjectDocuments = () => {
 
     } catch (error) {
       showSnackbar(`Failed to ${action} document.`, 'error');
-      console.error(`❌ Error ${action}ing document:`, error);
+      console.error(` Error ${action}ing document:`, error);
     }
   };
 

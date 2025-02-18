@@ -48,7 +48,7 @@ const Documentation = () => {
       showSnackbar("Document not found.", "error");
       return;
     }
-    setPdfPath(docPath); // ✅ ใช้ URL จาก Supabase แทน Local Path
+    setPdfPath(docPath); //  ใช้ URL จาก Supabase แทน Local Path
     setOpenDialog(true);
   };
 

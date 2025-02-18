@@ -215,7 +215,7 @@ const TeacherPage = () => {
                         margin: 'auto',
                         padding: '10px',
                       }}
-                      image={selectedTeacher.teacher_image || placeholderImage} // ✅ ใช้ URL ที่ถูกต้อง
+                      image={selectedTeacher.teacher_image || placeholderImage} 
                       alt={selectedTeacher.teacher_name || 'No Image'}
                     />
 

@@ -77,7 +77,7 @@ const UploadDoc = () => {
     }
 
     const formData = new FormData();
-    formData.append("file", file); // ✅ ตรวจสอบให้แน่ใจว่าไฟล์ถูกแนบ
+    formData.append("file", file); //  ตรวจสอบให้แน่ใจว่าไฟล์ถูกแนบ
   formData.append("doc_title", docTitle.trim());
   formData.append("doc_description", docDescription.trim());
   formData.append("uploaded_by", username);

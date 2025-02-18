@@ -17,11 +17,11 @@ const api = axios.create({
   },
 });
 
-// ✅ Interceptor: เพิ่ม Token ลงใน Header
+// Interceptor: เพิ่ม Token ลงใน Header
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
-    console.log('🔍 ส่ง Token:', token);
+    //console.log(' ส่ง Token:', token);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

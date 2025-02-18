@@ -150,7 +150,7 @@ const AddOldProject = () => {
       }
 
       if (response.data.fileUrl) {
-        setEditedData((prev) => ({ ...prev, file_path: response.data.fileUrl })); // ✅ ใช้ URL ที่ได้จาก API
+        setEditedData((prev) => ({ ...prev, file_path: response.data.fileUrl })); 
       }
 
       fetchProjects();
@@ -239,7 +239,7 @@ const AddOldProject = () => {
           </TableContainer>
         </CardContent>
       </Card>
-      {/* ✅ Dialog สำหรับดูเอกสาร PDF */}
+      {/*Dialog สำหรับดูเอกสาร PDF */}
       <Dialog
         open={openPdfDialog}
         onClose={() => setOpenPdfDialog(false)}
@@ -270,7 +270,7 @@ const AddOldProject = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      {/* ✅ Dialog สำหรับเพิ่ม/แก้ไขโครงงาน */}
+      {/*  Dialog สำหรับเพิ่ม/แก้ไขโครงงาน */}
       <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
         <DialogTitle>
           {isEditMode ? 'Edit Project' : 'Add New Project'}
@@ -351,7 +351,7 @@ const AddOldProject = () => {
           </Button>
         </DialogActions>
       </Dialog>
-        {/* ✅ Dialog เลือกปีของเอกสาร */}
+        {/*  Dialog เลือกปีของเอกสาร */}
         <Dialog open={openYearDialog} onClose={() => setOpenYearDialog(false)}>
         <DialogTitle>Select Document Year</DialogTitle>
         <DialogContent>

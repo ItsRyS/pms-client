@@ -38,7 +38,7 @@ const OldProject = () => {
     const fetchData = async () => {
       try {
         const response = await api.get("/old-projects");
-        console.log("✅ API Response:", response.data);
+        console.log(" API Response:", response.data);
         setProjects(response.data);
       } catch (error) {
         console.error("🚨 Error fetching projects:", error);

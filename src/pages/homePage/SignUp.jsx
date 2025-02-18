@@ -16,7 +16,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import api from '../../services/api';
 import { useSnackbar } from '../../components/ReusableSnackbar';
 
-// ✅ กำหนดโครงสร้าง Layout หลัก
+//  กำหนดโครงสร้าง Layout หลัก
 const RootContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   height: '100vh',
@@ -118,7 +118,7 @@ export default function SignUp() {
     <>
       <CssBaseline />
       <RootContainer>
-        {/* ✅ กล่องซ้าย */}
+        {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
             src="/PMS-logo2.svg"
@@ -133,7 +133,7 @@ export default function SignUp() {
           </Typography>
         </LeftContainer>
 
-        {/* ✅ กล่องขวา */}
+        {/*  กล่องขวา */}
         <RightContainer>
           <FormContainer component="form" onSubmit={handleSubmit}>
             <FormControl>
@@ -206,7 +206,7 @@ export default function SignUp() {
             </Typography>
           </FormContainer>
 
-          {/* ✅ ปุ่ม Home */}
+          {/*  ปุ่ม Home */}
           <HomeButton onClick={() => navigate('/')}>
             <HomeIcon />
           </HomeButton>
