@@ -75,11 +75,10 @@ const ViewProjectDocuments = () => {
         const formData = new FormData();
         formData.append('file', payload);
 
-        console.log("📤 Sending file:", payload.name);
+        console.log('📤 Sending file:', payload.name);
         await api.post(endpoint, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
+          headers: { 'Content-Type': 'multipart/form-data' },
         });
-
       } else if (action === 'reject') {
         await api.post(endpoint, { reason: payload });
       } else {
@@ -90,17 +89,22 @@ const ViewProjectDocuments = () => {
       fetchPendingDocuments();
       setSelectedDocument(null);
       if (action === 'reject') handleCloseRejectDialog();
-
     } catch (error) {
       showSnackbar(`Failed to ${action} document.`, 'error');
       console.error(` Error ${action}ing document:`, error);
     }
   };
 
-
   if (loading) {
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+        }}
+      >
         <CircularProgress />
       </Box>
     );
@@ -130,14 +134,16 @@ const ViewProjectDocuments = () => {
                 <TableCell>{doc.project_name}</TableCell>
                 <TableCell>{doc.type_name}</TableCell>
                 <TableCell>{doc.student_name}</TableCell>
-                <TableCell>{new Date(doc.submitted_at).toLocaleString()}</TableCell>
+                <TableCell>
+                  {new Date(doc.submitted_at).toLocaleString()}
+                </TableCell>
                 <TableCell>{doc.status}</TableCell>
                 <TableCell>
                   <Button
                     variant="contained"
                     onClick={() =>
                       setSelectedDocument({
-                        url: doc.file_path,  // ใช้ URL ตรงจากฐานข้อมูล
+                        url: doc.file_path, // ใช้ URL ตรงจากฐานข้อมูล
                         name: doc.type_name,
                         document_id: doc.document_id,
                       })
@@ -153,7 +159,10 @@ const ViewProjectDocuments = () => {
       </TableContainer>
 
       {selectedDocument && (
-        <Modal open={!!selectedDocument} onClose={() => setSelectedDocument(null)}>
+        <Modal
+          open={!!selectedDocument}
+          onClose={() => setSelectedDocument(null)}
+        >
           <Box
             sx={{
               position: 'absolute',
@@ -178,16 +187,44 @@ const ViewProjectDocuments = () => {
               title="Document Viewer"
               style={{ border: 'none' }}
             />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
-              <Button variant="contained" color="success" onClick={() => handleAction('approve')}>
-                Approve
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center', // ปรับให้ปุ่มอยู่ตรงกลาง
+                gap: 2, // เพิ่มระยะห่างระหว่างปุ่ม
+                mt: 2,
+              }}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => handleAction('approve')}
+                sx={{ minWidth: 150, fontSize: '1rem', borderRadius: '8px' }}
+              >
+                ✅ อนุมัติ
               </Button>
-              <Button variant="contained" color="error" onClick={handleOpenRejectDialog}>
-                Reject
+
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleOpenRejectDialog}
+                sx={{ minWidth: 150, fontSize: '1rem', borderRadius: '8px' }}
+              >
+                ❌ ไม่อนุมัติ
               </Button>
-              <Button variant="contained" component="label" color="primary" sx={{ ml: 2 }}>
-                Return Document
-                <input type="file" hidden onChange={(e) => handleAction('return', e.target.files[0])} />
+
+              <Button
+                variant="contained"
+                component="label"
+                color="primary"
+                sx={{ minWidth: 200, fontSize: '1rem', borderRadius: '8px' }}
+              >
+                🔄 ส่งเอกสารคืน
+                <input
+                  type="file"
+                  hidden
+                  onChange={(e) => handleAction('return', e.target.files[0])}
+                />
               </Button>
             </Box>
           </Box>
