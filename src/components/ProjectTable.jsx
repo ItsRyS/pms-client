@@ -195,6 +195,7 @@ const ProjectTable = ({ rows, loading }) => {
               getRowId={(row) => row.project_id}
               density='comfortable'
               loading={loading}
+              autoHeight
               sx={{
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: '#f5f5f5',

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
@@ -17,7 +17,7 @@ import {
   Container,
   Dialog,
   DialogContent,
-  IconButton
+  IconButton,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import api from '../../services/api';
@@ -34,24 +34,21 @@ const OldProject = () => {
   const [pdfLoading, setPdfLoading] = useState(false);
   const showSnackbar = useSnackbar();
 
-  const fetchProjects = useCallback(async () => {
-    if (loading) return;
-  setLoading(true);
-    try {
-      const response = await api.get('/old-projects');
-      console.log("Old Projects Data:", response.data);
-      setProjects(response.data);
-    } catch {
-      setError(true);
-      showSnackbar('ไม่สามารถโหลดข้อมูลได้', 'error');
-    } finally {
-      setLoading(false);
-    }
-  }, [loading, showSnackbar]);
-
-
   useEffect(() => {
-    fetchProjects();
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/old-projects");
+        console.log("✅ API Response:", response.data);
+        setProjects(response.data);
+      } catch (error) {
+        console.error("🚨 Error fetching projects:", error);
+        setError("Failed to load data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const handleViewDocument = (filePath) => {
@@ -64,18 +61,28 @@ const OldProject = () => {
     setOpenDialog(true);
   };
 
-
-
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <NavbarHome />
       <Box sx={{ flex: 1 }}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
           <Card sx={{ width: '100%', boxShadow: 3 }}>
-            <CardHeader title="Old Project Documents" sx={{ textAlign: 'center', bgcolor: 'primary.light', color: 'white' }} />
+            <CardHeader
+              title="Old Project Documents"
+              sx={{
+                textAlign: 'center',
+                bgcolor: 'primary.light',
+                color: 'white',
+              }}
+            />
             <CardContent>
               {loading ? (
-                <Box display="flex" justifyContent="center" alignItems="center" minHeight={200}>
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  minHeight={200}
+                >
                   <CircularProgress />
                 </Box>
               ) : error ? (
@@ -101,16 +108,22 @@ const OldProject = () => {
                     <TableBody>
                       {projects.map((project) => (
                         <TableRow key={project.old_id}>
-                          <TableCell>{project.old_project_name_th || "-"}</TableCell>
-                          <TableCell>{project.old_project_name_eng || "-"}</TableCell>
-                          <TableCell>{project.project_type || "-"}</TableCell>
-                          <TableCell>{project.document_year || "-"}</TableCell>
+                          <TableCell>
+                            {project.old_project_name_th || '-'}
+                          </TableCell>
+                          <TableCell>
+                            {project.old_project_name_eng || '-'}
+                          </TableCell>
+                          <TableCell>{project.project_type || '-'}</TableCell>
+                          <TableCell>{project.document_year || '-'}</TableCell>
                           <TableCell>
                             <Button
                               variant="contained"
                               color="primary"
                               size="small"
-                              onClick={() => handleViewDocument(project.file_path)}
+                              onClick={() =>
+                                handleViewDocument(project.file_path)
+                              }
                             >
                               View
                             </Button>
