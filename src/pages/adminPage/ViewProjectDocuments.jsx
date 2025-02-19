@@ -75,7 +75,7 @@ const ViewProjectDocuments = () => {
         const formData = new FormData();
         formData.append('file', payload);
 
-        console.log('📤 Sending file:', payload.name);
+        console.log(' Sending file:', payload.name);
         await api.post(endpoint, formData, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
@@ -85,7 +85,12 @@ const ViewProjectDocuments = () => {
         await api.post(endpoint);
       }
 
-      showSnackbar(`Document ${action}ed successfully.`, 'success');
+      showSnackbar(
+        `Document ${action === 'approve' ? 'Approved ' :
+          action === 'reject' ? 'Rejected ' :
+          'Returned '} Successfully.`,
+        'success'
+      );
       fetchPendingDocuments();
       setSelectedDocument(null);
       if (action === 'reject') handleCloseRejectDialog();
@@ -212,7 +217,7 @@ const ViewProjectDocuments = () => {
               onClick={() => handleAction('approve')}
               sx={{ minWidth: { xs: '100%', sm: '150px' }, fontSize: '1rem' }}
             >
-              ✅ อนุมัติ
+              อนุมัติ
             </Button>
 
             <Button
@@ -221,7 +226,7 @@ const ViewProjectDocuments = () => {
               onClick={handleOpenRejectDialog}
               sx={{ minWidth: { xs: '100%', sm: '150px' }, fontSize: '1rem' }}
             >
-              ❌ ไม่อนุมัติ
+              ไม่อนุมัติ
             </Button>
 
             <Button
@@ -230,7 +235,7 @@ const ViewProjectDocuments = () => {
               color="primary"
               sx={{ minWidth: { xs: '100%', sm: '200px' }, fontSize: '1rem' }}
             >
-              📤 ส่งเอกสารคืน
+              ส่งเอกสารคืน
               <input type="file" hidden onChange={(e) => handleAction('return', e.target.files[0])} />
             </Button>
           </Box>

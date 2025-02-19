@@ -11,12 +11,12 @@ import {
   InputLabel,
 } from '@mui/material';
 import api from '../../services/api';
-
+import { useSnackbar } from '../../components/ReusableSnackbar';
 const CheckProject = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
-
+  const showSnackbar = useSnackbar();
   useEffect(() => {
     const fetchRequests = async () => {
       try {
@@ -45,24 +45,30 @@ const CheckProject = () => {
           request.request_id === requestId ? { ...request, status } : request
         )
       );
+      showSnackbar(
+        `Project ${status === 'approved' ? 'Approved ' : 'Rejected '} Successfully.`,
+        'success'
+      );
     } catch (error) {
       console.error('Error updating status:', error);
     }
   };
 
   //  Debugging: ตรวจสอบค่าของ filterStatus และ requests ก่อนกรอง
-  console.log("Filter Status:", filterStatus);
-  console.log("Requests Before Filtering:", requests);
+  //console.log("Filter Status:", filterStatus);
+  //console.log("Requests Before Filtering:", requests);
 
-  const filteredRequests =
+  {/* ทดสองปิด
+const filteredRequests =
     requests && requests.length > 0
       ? filterStatus === 'all'
         ? requests
         : requests.filter((request) => request.status === filterStatus)
       : [];
 
+    */}
   //  Debugging: ตรวจสอบว่าหลังจากกรองข้อมูลแล้ว filteredRequests เป็นอย่างไร
-  console.log("Requests After Filtering:", filteredRequests);
+  // console.log("Requests After Filtering:", filteredRequests);
 
   if (loading) {
     return (
@@ -74,7 +80,6 @@ const CheckProject = () => {
 
   return (
     <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
-      {/* หัวข้อและตัวเลือกกรอง */}
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} md={6}>
           <Typography variant="h5" gutterBottom>
@@ -101,8 +106,10 @@ const CheckProject = () => {
 
       {/* รายการคำร้อง */}
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
-        {filteredRequests.length > 0 ? (
-          filteredRequests.map((request) => (
+      {requests.length > 0 ? (
+          requests
+            .filter((request) => filterStatus === 'all' || request.status === filterStatus)
+            .map((request) => (
             <Grid item xs={12} md={6} key={request.request_id}>
               <Paper
                 elevation={3}
@@ -137,7 +144,7 @@ const CheckProject = () => {
                     disabled={request.status === 'approved'}
                     sx={{ marginRight: 1 }}
                   >
-                    Approve
+                    อนุมัติ
                   </Button>
                   <Button
                     variant="contained"
@@ -145,7 +152,7 @@ const CheckProject = () => {
                     onClick={() => handleStatusUpdate(request.request_id, 'rejected')}
                     disabled={request.status === 'rejected'}
                   >
-                    Reject
+                    ไม่อนุมัติ
                   </Button>
                 </Box>
               </Paper>
