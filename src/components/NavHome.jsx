@@ -67,10 +67,10 @@ const NavbarHome = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 1.2, // ปรับระยะห่างให้สวยงาม
+            gap: 0.5, // ปรับระยะห่างให้สวยงาม
             px: 1.5,
             borderRadius: 2,
-            boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)", // ใส่เงาให้ดูเด่นขึ้น
+          
           }}
         >
           <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
