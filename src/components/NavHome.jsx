@@ -50,13 +50,16 @@ const NavbarHome = () => {
         </IconButton>
 
         {/* Logo */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Link to="/" style={{ textDecoration: "none" }}>
+        <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "#fff", padding: "4px 8px", borderRadius: "4px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)" }}>
+          <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
             <img src="/up-logo.png" alt="IT-PMS Logo" style={{ height: "48px", width: "auto" }} />
+            <Typography variant="h6" component="div" sx={{ ml: 1, fontWeight: 500, color: "#FFA64D" }}>
+              IT
+            </Typography>
+            <Typography variant="h6" component="div" sx={{ ml: 0.5, fontWeight: 500, color: "#FFFFFF" }}>
+              -PMS
+            </Typography>
           </Link>
-          <Typography variant="h6" component="div" sx={{ ml: 1, fontWeight: 500, color: "#000" }}>
-            IT-PMS
-          </Typography>
         </Box>
 
         {/* Desktop Menu */}
