@@ -15,15 +15,18 @@ import {
   ListItem,
   Skeleton,
 } from '@mui/material';
+import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone"
+import NoteAddTwoToneIcon from "@mui/icons-material/NoteAddTwoTone";
+import NewReleasesTwoToneIcon from "@mui/icons-material/NewReleasesTwoTone";
 import { NavLink, useNavigate } from 'react-router-dom';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PeopleIcon from '@mui/icons-material/People';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import PeopleAltTwoToneIcon from "@mui/icons-material/PeopleAltTwoTone";
+import TypeSpecimenTwoToneIcon from "@mui/icons-material/TypeSpecimenTwoTone";
+import AssignmentTurnedInTwoToneIcon from "@mui/icons-material/AssignmentTurnedInTwoTone";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useSnackbar } from '../components/ReusableSnackbar';
 import api ,{ API_BASE_URL } from '../services/api';
-
+import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone"
 // Constants
 const drawerWidth = 240;
 const COLORS = {
@@ -127,21 +130,28 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             {
               to: '/adminHome/manage-user',
               text: 'จัดการผู้ใช้',
-              icon: <PeopleIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <PeopleAltTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'จัดการผู้ใช้',
-            },
-            {
-              to: '/adminHome/upload-doc',
-              text: 'เพิ่มแบบฟอร์มเอกสาร',
-              icon: <CloudUploadIcon sx={{ color: COLORS.text.secondary }} />,
-              title: 'เพิ่มแบบฟอร์มเอกสาร',
             },
             {
               to: '/adminHome/TeacherInfo',
               text: 'ข้อมูลอาจารย์',
-              icon: <PeopleIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <PeopleAltTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'ข้อมูลอาจารย์',
             },
+            {
+              to: '/adminHome/upload-doc',
+              text: 'เพิ่มแบบฟอร์มเอกสาร',
+              icon: <UploadFileTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              title: 'เพิ่มแบบฟอร์มเอกสาร',
+            },
+            {
+              to: '/adminHome/project-types',
+              text: 'จัดการประเภทโครงการ',
+              icon: <TypeSpecimenTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              title: 'จัดการประเภทโครงการ',
+            },
+
           ].map(({ to, text, icon, title }, index) => (
             <NavLink
               key={index}
@@ -164,34 +174,29 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         </ListItem>
         <List component="div" disablePadding>
           {[
-            {
-              to: '/adminHome/project-types',
-              text: 'จัดการประเภทโครงการ',
-              icon: <CloudUploadIcon sx={{ color: COLORS.text.secondary }} />,
-              title: 'จัดการประเภทโครงการ',
-            },
+
             {
               to: '/adminHome/CheckProject',
               text: 'อนุมัติโครงการ',
-              icon: <CheckCircleIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <CheckCircleTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'อนุมัติโครงการ',
             },
             {
               to: '/adminHome/ViewProjectDocuments',
               text: 'ตรวจเอกสาร',
-              icon: <CloudUploadIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <AssignmentTurnedInTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'ตรวจเอกสาร',
             },
             {
               to: '/adminHome/release-project',
               text: 'เผยแพร่โครงการ',
-              icon: <CloudUploadIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <NewReleasesTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'เผยแพร่โครงการ',
             },
             {
               to: '/adminHome/AddOldProject',
               text: 'โครงงานเก่า',
-              icon: <CloudUploadIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <NoteAddTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'โครงงานเก่า',
             },
           ].map(({ to, text, icon, title }, index) => (

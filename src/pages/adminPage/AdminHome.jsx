@@ -55,9 +55,9 @@ const AdminHome = () => {
       <Grid container spacing={3}>
         {/* แสดงสถิติ 3 ช่อง (Active Projects, Pending Requests, Pending Documents) */}
         {[
-          { title: "Active Projects", value: dashboardData.activeProjects },
-          { title: "Pending Project Requests", value: dashboardData.pendingProjectRequests },
-          { title: "Pending Documents", value: dashboardData.pendingDocuments },
+          { title: "โครงงานที่ได้อนุมัติ", value: dashboardData.activeProjects },
+          { title: "คำร้องขอเปิดโครงงาน", value: dashboardData.pendingProjectRequests },
+          { title: "เอกสารโครงงานรอตรวจสอบ", value: dashboardData.pendingDocuments },
         ].map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card sx={{ textAlign: "center", padding: 2, boxShadow: 3 }}>
