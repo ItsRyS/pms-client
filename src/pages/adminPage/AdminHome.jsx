@@ -62,9 +62,7 @@ const AdminHome = () => {
 
   return (
     <Container maxWidth="xl">
-      <Typography variant="h4" gutterBottom textAlign="center">
-        Admin Dashboard
-      </Typography>
+     
       <Grid container spacing={3}>
         {/* แสดงสถิติ 3 ช่อง (Active Projects, Pending Requests, Pending Documents) */}
         {[
@@ -90,7 +88,6 @@ const AdminHome = () => {
             </Card>
           </Grid>
         ))}
-        console.error(dashboardData.activeProjects);
         {/* Pie Chart - การกระจายประเภทโครงการ */}
         <Grid item xs={12} md={8} lg={6} sx={{ mx: 'auto' }}>
           <Card sx={{ padding: 2, boxShadow: 3 }}>
