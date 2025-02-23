@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Grid, Card, CardContent, Typography, CircularProgress, Box } from "@mui/material";
+import { Container, Grid, Card, CardContent, Typography, CircularProgress, Box, Chip } from "@mui/material";
 import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import api from "../../services/api";
@@ -8,7 +8,9 @@ import api from "../../services/api";
 const AdminHome = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
+  const [railwayStatus, setRailwayStatus] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingRailway, setLoadingRailway] = useState(true);
 
   useEffect(() => {
     // ตรวจสอบ Session
@@ -35,8 +37,21 @@ const AdminHome = () => {
       }
     };
 
+    // ดึงข้อมูลสถานะ Railway
+    const fetchRailwayStatus = async () => {
+      try {
+        const response = await api.get("/railway/status");
+        setRailwayStatus(response.data.deployments);
+      } catch (error) {
+        console.error("Error fetching Railway status", error);
+      } finally {
+        setLoadingRailway(false);
+      }
+    };
+
     checkSession();
     fetchDashboardData();
+    fetchRailwayStatus();
   }, [navigate]);
 
   if (loading) {
@@ -91,6 +106,31 @@ const AdminHome = () => {
                   }}
                 />
               </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+
+        {/* Railway Status */}
+        <Grid item xs={12} md={6} lg={4} sx={{ mx: "auto" }}>
+          <Card sx={{ padding: 2, boxShadow: 3 }}>
+            <CardContent>
+              <Typography variant="h6" align="center">Railway Deployment Status</Typography>
+              {loadingRailway ? (
+                <Box display="flex" justifyContent="center">
+                  <CircularProgress />
+                </Box>
+              ) : (
+                railwayStatus.map((deploy, index) => (
+                  <Box key={index} display="flex" justifyContent="space-between" sx={{ marginBottom: 1 }}>
+                    <Typography>{new Date(deploy.updatedAt).toLocaleString()}</Typography>
+                    <Chip
+                      label={deploy.status}
+                      color={deploy.status === "SUCCESS" ? "success" : "error"}
+                      size="small"
+                    />
+                  </Box>
+                ))
+              )}
             </CardContent>
           </Card>
         </Grid>
