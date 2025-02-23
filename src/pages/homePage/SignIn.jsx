@@ -142,7 +142,7 @@ export default function SignIn() {
         {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
-            src="/PMS-logo2.svg"
+            src="/up-logo.png"
             alt="IT-PMS Logo"
             style={{ width: '60%', maxWidth: '250px' }}
           />

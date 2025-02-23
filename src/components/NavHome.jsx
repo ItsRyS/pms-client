@@ -9,6 +9,7 @@ import Drawer from "@mui/material/Drawer";
 import { Link } from "react-router-dom";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone";
+import { Typography } from "@mui/material";
 
 const menuItems = [
   {
@@ -51,8 +52,11 @@ const NavbarHome = () => {
         {/* Logo */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
           <Link to="/" style={{ textDecoration: "none" }}>
-            <img src="/PMS-logo2.svg" alt="IT-PMS Logo" style={{ height: "48px", width: "auto" }} />
+            <img src="/up-logo.png" alt="IT-PMS Logo" style={{ height: "48px", width: "auto" }} />
           </Link>
+          <Typography variant="h6" component="div" sx={{ ml: 1, fontWeight: 500, color: "#000" }}>
+            IT-PMS
+          </Typography>
         </Box>
 
         {/* Desktop Menu */}
