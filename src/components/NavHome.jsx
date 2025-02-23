@@ -74,13 +74,9 @@ const NavbarHome = () => {
           }}
         >
           <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-            <img
-              src="/up-logo.png"
-              alt="IT-PMS Logo"
-              style={{ height: "48px", width: "auto" }}
-            />
+
             <Typography
-              variant="h6"
+              variant="h3"
               component="div"
               sx={{
                 fontWeight: 600,
