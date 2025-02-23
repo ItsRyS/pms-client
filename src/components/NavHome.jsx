@@ -67,10 +67,10 @@ const NavbarHome = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 0.5, // ปรับระยะห่างให้สวยงาม
+            gap: 0.5,
             px: 1.5,
-            borderRadius: 2,
-          
+
+
           }}
         >
           <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
@@ -84,7 +84,7 @@ const NavbarHome = () => {
               component="div"
               sx={{
                 fontWeight: 600,
-                ml: 1, // ปรับระยะห่างจากโลโก้
+                ml: 0.5, // ปรับระยะห่างจากโลโก้
                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)", // เพิ่มเงาให้ตัวอักษร
               }}
             >
