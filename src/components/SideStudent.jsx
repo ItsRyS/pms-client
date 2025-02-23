@@ -14,12 +14,15 @@ import {
   Toolbar,
   Skeleton,
 } from '@mui/material';
-import { Home, School, Assignment, PresentToAll } from '@mui/icons-material';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import api from '../services/api';
 import { useSnackbar } from '../components/ReusableSnackbar';
-
+import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone"
+import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone"
+import PlagiarismTwoToneIcon from "@mui/icons-material/PlagiarismTwoTone"
+import RateReviewTwoToneIcon from "@mui/icons-material/RateReviewTwoTone"
+import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone"
 // Constants
 const drawerWidth = 240;
 const COLORS = {
@@ -173,31 +176,31 @@ const SideStudent = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
     {
       to: '/studentHome',
       text: 'หน้าหลัก',
-      icon: <Home sx={{ color: COLORS.text.secondary }} />,
+      icon: <DashboardTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
       title: 'หน้าหลัก',
     },
     {
       to: '/studentHome/ProfileUser',
       text: 'ข้อมูลส่วนตัว',
-      icon: <Home sx={{ color: COLORS.text.secondary }} />,
+      icon: <AccountCircleTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
       title: 'ข้อมูลส่วนตัว',
     },
     {
       to: '/studentHome/Documentation',
       text: 'แบบร่างเอกสาร',
-      icon: <School sx={{ color: COLORS.text.secondary }} />,
+      icon: <PlagiarismTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
       title: 'แบบร่างเอกสาร',
     },
     {
       to: '/studentHome/projectRequest',
       text: 'คำร้องโครงการ',
-      icon: <Assignment sx={{ color: COLORS.text.secondary }} />,
+      icon: <RateReviewTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
       title: 'คำร้องโครงการ',
     },
     {
       to: '/studentHome/uploadProjectDocument',
       text: 'ส่งเอกสาร',
-      icon: <PresentToAll sx={{ color: COLORS.text.secondary }} />,
+      icon: <UploadFileTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
       title: 'ส่งเอกสาร',
     },
   ];

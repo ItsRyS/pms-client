@@ -19,7 +19,7 @@ import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone"
 import NoteAddTwoToneIcon from "@mui/icons-material/NoteAddTwoTone";
 import NewReleasesTwoToneIcon from "@mui/icons-material/NewReleasesTwoTone";
 import { NavLink, useNavigate } from 'react-router-dom';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import DashboardTwoToneIcon from "@mui/icons-material/DashboardTwoTone";
 import PeopleAltTwoToneIcon from "@mui/icons-material/PeopleAltTwoTone";
 import TypeSpecimenTwoToneIcon from "@mui/icons-material/TypeSpecimenTwoTone";
 import AssignmentTurnedInTwoToneIcon from "@mui/icons-material/AssignmentTurnedInTwoTone";
@@ -124,7 +124,7 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             {
               to: '/adminHome',
               text: 'หน้าหลัก',
-              icon: <DashboardIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <DashboardTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
               title: 'หน้าหลัก',
             },
             {
@@ -183,9 +183,9 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             },
             {
               to: '/adminHome/ViewProjectDocuments',
-              text: 'ตรวจเอกสาร',
+              text: 'ตรวจเอกสารโครงงาน',
               icon: <AssignmentTurnedInTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
-              title: 'ตรวจเอกสาร',
+              title: 'ตรวจเอกสารโครงงาน',
             },
             {
               to: '/adminHome/release-project',
@@ -195,9 +195,9 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             },
             {
               to: '/adminHome/AddOldProject',
-              text: 'โครงงานเก่า',
+              text: 'เพิ่มเอกสารโครงงานเก่า',
               icon: <NoteAddTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
-              title: 'โครงงานเก่า',
+              title: 'เพิ่มเอกสารโครงงานเก่า',
             },
           ].map(({ to, text, icon, title }, index) => (
             <NavLink

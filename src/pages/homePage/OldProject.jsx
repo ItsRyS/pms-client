@@ -71,8 +71,8 @@ const OldProject = () => {
               title="Old Project Documents"
               sx={{
                 textAlign: 'center',
-                bgcolor: 'primary.light',
-                color: 'white',
+                bgcolor: '#FF9248',
+                color: 'ฺ#000000',
               }}
             />
             <CardContent>

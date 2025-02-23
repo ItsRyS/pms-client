@@ -1,6 +1,6 @@
 import { Box, Typography, IconButton } from '@mui/material';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import EmailIcon from '@mui/icons-material/Email';
+import ContactMailTwoToneIcon from "@mui/icons-material/ContactMailTwoTone"
 
 const FooterHome = () => {
   return (
@@ -36,7 +36,7 @@ const FooterHome = () => {
           href="mailto:ForzaLyraBelil@outlook.com"
           sx={{ color: '#f0f4f8' }}
         >
-          <EmailIcon />
+          <ContactMailTwoToneIcon />
         </IconButton>
       </Box>
     </Box>
