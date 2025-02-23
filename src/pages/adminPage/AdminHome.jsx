@@ -68,7 +68,7 @@ const AdminHome = () => {
             </Card>
           </Grid>
         ))}
-
+        console.error(dashboardData.activeProjects);
         {/* Pie Chart - การกระจายประเภทโครงการ */}
         <Grid item xs={12} md={8} lg={6} sx={{ mx: "auto" }}>
           <Card sx={{ padding: 2, boxShadow: 3 }}>
