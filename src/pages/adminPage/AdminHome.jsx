@@ -8,7 +8,7 @@ import api from "../../services/api";
 const AdminHome = () => {
   const navigate = useNavigate();
   const [dashboardData, setDashboardData] = useState(null);
-  const [railwayStatus, setRailwayStatus] = useState([]);
+  const [railwayServices, setRailwayServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingRailway, setLoadingRailway] = useState(true);
 
@@ -37,13 +37,13 @@ const AdminHome = () => {
       }
     };
 
-    // ดึงข้อมูลสถานะ Railway
+    // ดึงข้อมูลสถานะ Service จาก Railway
     const fetchRailwayStatus = async () => {
       try {
         const response = await api.get("/railway/status");
-        setRailwayStatus(response.data.deployments);
+        setRailwayServices(response.data.services);
       } catch (error) {
-        console.error("Error fetching Railway status", error);
+        console.error("Error fetching Railway service status", error);
       } finally {
         setLoadingRailway(false);
       }
@@ -110,22 +110,28 @@ const AdminHome = () => {
           </Card>
         </Grid>
 
-        {/* Railway Status */}
+        {/* Railway Service Status */}
         <Grid item xs={12} md={6} lg={4} sx={{ mx: "auto" }}>
           <Card sx={{ padding: 2, boxShadow: 3 }}>
             <CardContent>
-              <Typography variant="h6" align="center">Railway Deployment Status</Typography>
+              <Typography variant="h6" align="center">Railway Service Status</Typography>
               {loadingRailway ? (
                 <Box display="flex" justifyContent="center">
                   <CircularProgress />
                 </Box>
               ) : (
-                railwayStatus.map((deploy, index) => (
+                railwayServices.map((service, index) => (
                   <Box key={index} display="flex" justifyContent="space-between" sx={{ marginBottom: 1 }}>
-                    <Typography>{new Date(deploy.updatedAt).toLocaleString()}</Typography>
+                    <Typography>{service.name}</Typography>
                     <Chip
-                      label={deploy.status}
-                      color={deploy.status === "SUCCESS" ? "success" : "error"}
+                      label={service.status}
+                      color={
+                        service.status === "SUCCESS"
+                          ? "success"
+                          : service.status === "FAILED"
+                          ? "error"
+                          : "warning"
+                      }
                       size="small"
                     />
                   </Box>
