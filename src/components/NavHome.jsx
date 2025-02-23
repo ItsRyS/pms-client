@@ -13,27 +13,27 @@ import { Typography } from "@mui/material";
 
 const menuItems = [
   {
-    text: 'คณะอาจารย์',
+    text: "คณะอาจารย์",
     icon: <AssignmentIndTwoToneIcon />,
-    to: '/TeacherPage',
-    color: '#000000',
-    variant: 'text',
+    to: "/TeacherPage",
+    color: "#000000",
+    variant: "text",
   },
   {
-    text: 'โครงงานเก่า',
+    text: "โครงงานเก่า",
     icon: <AssignmentIndTwoToneIcon />,
-    to: '/OldProject',
-    variant: 'text',
-    color: '#000000',
-    fontWeight: 'bold',
+    to: "/OldProject",
+    variant: "text",
+    color: "#000000",
+    fontWeight: "bold",
   },
   {
-    text: 'เข้าสู่ระบบ',
+    text: "เข้าสู่ระบบ",
     icon: <LoginTwoToneIcon />,
-    to: '/SignIn',
-    variant: 'contained',
-    color: 'warning',
-    fontWeight: 'bold',
+    to: "/SignIn",
+    variant: "contained",
+    color: "warning",
+    fontWeight: "bold",
   },
 ];
 
@@ -42,22 +42,54 @@ const NavbarHome = () => {
   const toggleDrawer = (open) => () => setMobileOpen(open);
 
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "#FFA64D", width: "100%", zIndex: 99 }}>
+    <AppBar
+      position="sticky"
+      sx={{
+        backgroundColor: "#FFA64D",
+        width: "100%",
+        zIndex: 99,
+        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // เพิ่มเงาให้ AppBar
+      }}
+    >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Mobile Menu Button */}
-        <IconButton color="inherit" edge="start" sx={{ display: { xs: "block", sm: "none" } }} onClick={toggleDrawer(true)}>
+        <IconButton
+          color="inherit"
+          edge="start"
+          sx={{ display: { xs: "block", sm: "none" } }}
+          onClick={toggleDrawer(true)}
+        >
           <MenuIcon />
         </IconButton>
 
-        {/* Logo */}
-        <Box sx={{ display: "flex", alignItems: "center", backgroundColor: "#fff", padding: "4px 8px", borderRadius: "4px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)" }}>
+        {/* Logo & Title */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 1.2, // ปรับระยะห่างให้สวยงาม
+            px: 1.5,
+            borderRadius: 2,
+            boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.15)", // ใส่เงาให้ดูเด่นขึ้น
+          }}
+        >
           <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-            <img src="/up-logo.png" alt="IT-PMS Logo" style={{ height: "48px", width: "auto" }} />
-            <Typography variant="h6" component="div" sx={{ ml: 1, fontWeight: 500, color: "#FFA64D" }}>
-              IT
-            </Typography>
-            <Typography variant="h6" component="div" sx={{ ml: 0.5, fontWeight: 500, color: "#FFFFFF" }}>
-              -PMS
+            <img
+              src="/up-logo.png"
+              alt="IT-PMS Logo"
+              style={{ height: "48px", width: "auto" }}
+            />
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{
+                fontWeight: 600,
+                ml: 1, // ปรับระยะห่างจากโลโก้
+                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)", // เพิ่มเงาให้ตัวอักษร
+              }}
+            >
+              <span style={{ color: "#FF5722" }}>IT</span>
+              <span style={{ color: "#FFFFFF" }}>-PMS</span>
             </Typography>
           </Link>
         </Box>
@@ -65,7 +97,18 @@ const NavbarHome = () => {
         {/* Desktop Menu */}
         <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 3, ml: "auto" }}>
           {menuItems.map(({ text, to }, index) => (
-            <Button key={index} component={Link} to={to} variant="text" sx={{ fontSize: "1rem", color: "#000", fontWeight: 500 }}>
+            <Button
+              key={index}
+              component={Link}
+              to={to}
+              variant="text"
+              sx={{
+                fontSize: "1rem",
+                color: "#000",
+                fontWeight: 500,
+                "&:hover": { color: "#FF5722" },
+              }}
+            >
               {text}
             </Button>
           ))}
@@ -75,7 +118,18 @@ const NavbarHome = () => {
         <Drawer anchor="left" open={mobileOpen} onClose={toggleDrawer(false)}>
           <Box sx={{ width: 250, padding: "16px" }}>
             {menuItems.map(({ text, to }, index) => (
-              <Button key={index} component={Link} to={to} fullWidth sx={{ fontSize: "1rem", color: "#000", fontWeight: 500 }}>
+              <Button
+                key={index}
+                component={Link}
+                to={to}
+                fullWidth
+                sx={{
+                  fontSize: "1rem",
+                  color: "#000",
+                  fontWeight: 500,
+                  "&:hover": { color: "#FF5722" },
+                }}
+              >
                 {text}
               </Button>
             ))}
