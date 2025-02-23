@@ -1,39 +1,39 @@
-import { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
-import { Link } from "react-router-dom";
-import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
-import AssignmentIndTwoToneIcon from "@mui/icons-material/AssignmentIndTwoTone";
-import { Typography } from "@mui/material";
-
+import { useState } from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Drawer from '@mui/material/Drawer';
+import { Link } from 'react-router-dom';
+import LoginTwoToneIcon from '@mui/icons-material/LoginTwoTone';
+import FindInPageTwoToneIcon from '@mui/icons-material/FindInPageTwoTone';
+import { Typography } from '@mui/material';
+import Groups3TwoToneIcon from '@mui/icons-material/Groups3TwoTone';
 const menuItems = [
   {
-    text: "คณะอาจารย์",
-    icon: <AssignmentIndTwoToneIcon />,
-    to: "/TeacherPage",
-    color: "#000000",
-    variant: "text",
+    text: 'คณะอาจารย์',
+    icon: <Groups3TwoToneIcon />,
+    to: '/TeacherPage',
+    color: '#000000',
+    variant: 'squared',
   },
   {
-    text: "โครงงานเก่า",
-    icon: <AssignmentIndTwoToneIcon />,
-    to: "/OldProject",
-    variant: "text",
-    color: "#000000",
-    fontWeight: "bold",
+    text: 'โครงงานเก่า',
+    icon: <FindInPageTwoToneIcon />,
+    to: '/OldProject',
+    variant: 'text',
+    color: '#000000',
+    fontWeight: 'bold',
   },
   {
-    text: "เข้าสู่ระบบ",
+    text: 'เข้าสู่ระบบ',
     icon: <LoginTwoToneIcon />,
-    to: "/SignIn",
-    variant: "contained",
-    color: "warning",
-    fontWeight: "bold",
+    to: '/SignIn',
+    variant: 'contained',
+    color: 'warning',
+    fontWeight: 'bold',
   },
 ];
 
@@ -45,18 +45,18 @@ const NavbarHome = () => {
     <AppBar
       position="sticky"
       sx={{
-        backgroundColor: "#FFA64D",
-        width: "100%",
+        backgroundColor: '#FFA64D',
+        width: '100%',
         zIndex: 99,
-        boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)", // เพิ่มเงาให้ AppBar
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // เพิ่มเงาให้ AppBar
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Mobile Menu Button */}
         <IconButton
           color="inherit"
           edge="start"
-          sx={{ display: { xs: "block", sm: "none" } }}
+          sx={{ display: { xs: 'block', sm: 'none' } }}
           onClick={toggleDrawer(true)}
         >
           <MenuIcon />
@@ -65,54 +65,61 @@ const NavbarHome = () => {
         {/* Logo & Title */}
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
+            display: 'flex',
+            alignItems: 'center',
             gap: 0.5,
             px: 1.5,
-
-
           }}
         >
-          <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-
+          <Link
+            to="/"
+            style={{
+              textDecoration: 'none',
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <Typography
               variant="h3"
               component="div"
               sx={{
                 fontWeight: 600,
                 ml: 0.5, // ปรับระยะห่างจากโลโก้
-                textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)", // เพิ่มเงาให้ตัวอักษร
+                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)', // เพิ่มเงาให้ตัวอักษร
               }}
             >
-              <span style={{ color: "#FF5722" }}>IT</span>
-              <span style={{ color: "#FFFFFF" }}>-PMS</span>
+              <span style={{ color: '#FF5722' }}>IT</span>
+              <span style={{ color: '#FFFFFF' }}>-PMS</span>
             </Typography>
           </Link>
         </Box>
 
         {/* Desktop Menu */}
-        <Box sx={{ display: { xs: "none", sm: "flex" }, gap: 3, ml: "auto" }}>
-          {menuItems.map(({ text, to }, index) => (
+        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 3, ml: 'auto' }}>
+          {menuItems.map(({ text, icon, to }, index) => (
             <Button
               key={index}
               component={Link}
               to={to}
               variant="text"
               sx={{
-                fontSize: "1rem",
-                color: "#000",
+                fontSize: '1rem',
+                color: '#000',
                 fontWeight: 500,
-                "&:hover": { color: "#FF5722" },
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+                '&:hover': { color: '#FF5722' },
               }}
             >
-              {text}
+              {icon} {text}
             </Button>
           ))}
         </Box>
 
         {/* Mobile Drawer Menu */}
         <Drawer anchor="left" open={mobileOpen} onClose={toggleDrawer(false)}>
-          <Box sx={{ width: 250, padding: "16px" }}>
+          <Box sx={{ width: 250, padding: '16px' }}>
             {menuItems.map(({ text, to }, index) => (
               <Button
                 key={index}
@@ -120,10 +127,10 @@ const NavbarHome = () => {
                 to={to}
                 fullWidth
                 sx={{
-                  fontSize: "1rem",
-                  color: "#000",
+                  fontSize: '1rem',
+                  color: '#000',
                   fontWeight: 500,
-                  "&:hover": { color: "#FF5722" },
+                  '&:hover': { color: '#FF5722' },
                 }}
               >
                 {text}
