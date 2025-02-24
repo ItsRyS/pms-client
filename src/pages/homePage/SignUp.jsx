@@ -121,9 +121,9 @@ export default function SignUp() {
         {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
-            src="/PMS-logo2.svg"
+            src="/PMS-logo3.svg"
             alt="IT-PMS Logo"
-            style={{ width: '60%', maxWidth: '250px' }}
+            style={{ width: '60%', maxWidth: '500px' }}
           />
           <Typography variant="h5" sx={{ mt: 2, fontWeight: 'bold' }}>
             สมัครสมาชิก
