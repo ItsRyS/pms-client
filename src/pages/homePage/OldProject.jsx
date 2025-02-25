@@ -41,7 +41,7 @@ const OldProject = () => {
         console.log(" API Response:", response.data);
         setProjects(response.data);
       } catch (error) {
-        console.error("🚨 Error fetching projects:", error);
+        console.error("Error fetching projects:", error);
         setError("Failed to load data.");
       } finally {
         setLoading(false);

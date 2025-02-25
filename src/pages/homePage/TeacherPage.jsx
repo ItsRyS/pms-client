@@ -99,7 +99,7 @@ const TeacherPage = () => {
             padding: 0,
           }}
         >
-          <Box sx={{ width: '100%', padding: 2 }}>
+          
             {error && (
               <Typography variant="body1" color="error" sx={{ mb: 3 }}>
                 {error}
@@ -215,7 +215,7 @@ const TeacherPage = () => {
                         margin: 'auto',
                         padding: '10px',
                       }}
-                      image={selectedTeacher.teacher_image || placeholderImage} 
+                      image={selectedTeacher.teacher_image || placeholderImage}
                       alt={selectedTeacher.teacher_name || 'No Image'}
                     />
 
@@ -252,7 +252,7 @@ const TeacherPage = () => {
                 )}
               </Box>
             </Modal>
-          </Box>
+
         </Container>
       </Box>
       <FooterHome />

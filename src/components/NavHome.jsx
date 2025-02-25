@@ -45,7 +45,7 @@ const NavbarHome = () => {
     <AppBar
       position="sticky"
       sx={{
-        backgroundColor: '#FFA64D',
+        backgroundColor: '#FF6700',
         width: '100%',
         zIndex: 99,
         boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // เพิ่มเงาให้ AppBar
@@ -85,11 +85,12 @@ const NavbarHome = () => {
               sx={{
                 fontWeight: 600,
                 ml: 0.5, // ปรับระยะห่างจากโลโก้
-                textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)', // เพิ่มเงาให้ตัวอักษร
+                textShadow: '6px 1px 1px rgba(0, 0, 0, 0.2)', // เพิ่มเงาให้ตัวอักษร
+                '&:hover': { color: '#FFF4F4' },
               }}
             >
-              <span style={{ color: '#FF5722' }}>IT</span>
-              <span style={{ color: '#FFFFFF' }}>-PMS</span>
+              <span style={{ color: '#FFFFFF' }}>IT</span>
+              <span style={{ color: '#000000' }}>-PMS</span>
             </Typography>
           </Link>
         </Box>
@@ -109,7 +110,7 @@ const NavbarHome = () => {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1,
-                '&:hover': { color: '#FF5722' },
+                '&:hover': { color: '#FFF4F4' },
               }}
             >
               {icon} {text}
