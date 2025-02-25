@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
   IconButton,
-  Link
+  Link,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
@@ -29,7 +29,7 @@ const RootContainer = styled(Box)(({ theme }) => ({
 
 const LeftContainer = styled(Box)(({ theme }) => ({
   flex: 1,
-  backgroundColor: '#FFA64D',
+  backgroundColor: '#FF6700',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -142,11 +142,16 @@ export default function SignIn() {
         {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
-            src="/PMS-logo3.svg"
+            src="/IT-PMS.svg"
             alt="IT-PMS Logo"
-            style={{ width: '60%', maxWidth: '500px' }}
+            style={{
+              width: '60%',
+              maxWidth: '500px',
+              objectFit: 'contain',
+            }}
           />
-          <Typography variant="h5" sx={{ mt: 2, fontWeight: 'bold' }}>
+
+          <Typography variant="h4" sx={{ mt: 2, fontWeight: 'bold' }}>
             ระบบการจัดการโครงงาน
           </Typography>
           <Typography variant="body2">
@@ -166,8 +171,8 @@ export default function SignIn() {
                 placeholder="your@email.com"
                 fullWidth
                 required
-                error={!!errors.email} //  ถ้ามี error ให้แสดงเป็น true
-                helperText={errors.email || ''} //  แสดงข้อความ error
+                error={!!errors.email}
+                helperText={errors.email || ''}
               />
             </FormControl>
 
@@ -190,7 +195,8 @@ export default function SignIn() {
               variant="contained"
               fullWidth
               sx={{
-                backgroundColor: '#FFA64D',
+                backgroundColor: '#FF6700',
+                color: '#fff',
                 '&:hover': { backgroundColor: '#FF8C00' },
                 padding: '12px',
                 fontSize: '1rem',

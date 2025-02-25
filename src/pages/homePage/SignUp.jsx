@@ -29,7 +29,7 @@ const RootContainer = styled(Box)(({ theme }) => ({
 
 const LeftContainer = styled(Box)(({ theme }) => ({
   flex: 1,
-  backgroundColor: '#FFA64D',
+  backgroundColor: '#FF6700',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -121,11 +121,11 @@ export default function SignUp() {
         {/*  กล่องซ้าย */}
         <LeftContainer>
           <img
-            src="/PMS-logo3.svg"
+            src="/IT-PMS.svg"
             alt="IT-PMS Logo"
             style={{ width: '60%', maxWidth: '500px' }}
           />
-          <Typography variant="h5" sx={{ mt: 2, fontWeight: 'bold' }}>
+          <Typography variant="h4" sx={{ mt: 2, fontWeight: 'bold' }}>
             สมัครสมาชิก
           </Typography>
           <Typography variant="body2">
@@ -183,7 +183,7 @@ export default function SignUp() {
               variant="contained"
               fullWidth
               sx={{
-                backgroundColor: '#FFA64D',
+                backgroundColor: '#FF6700',
                 '&:hover': { backgroundColor: '#FF8C00' },
                 padding: '12px',
                 fontSize: '1rem',

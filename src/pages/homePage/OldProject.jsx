@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import {
-  Card,
   CardContent,
   Table,
   TableBody,
@@ -36,12 +35,12 @@ const OldProject = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/old-projects");
-        console.log(" API Response:", response.data);
+        const response = await api.get('/old-projects');
+        console.log(' API Response:', response.data);
         setProjects(response.data);
       } catch (error) {
-        console.error("Error fetching projects:", error);
-        setError("Failed to load data.");
+        console.error('Error fetching projects:', error);
+        setError('Failed to load data.');
       } finally {
         setLoading(false);
       }
@@ -63,10 +62,10 @@ const OldProject = () => {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <NavbarHome />
+
       <Box sx={{ flex: 1 }}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Card sx={{ width: '100%'}}>
-
+          <Box sx={{ width: '100%', textAlign: 'center', padding: 2 }}>
             <CardContent>
               {loading ? (
                 <Box
@@ -127,7 +126,7 @@ const OldProject = () => {
                 </TableContainer>
               )}
             </CardContent>
-          </Card>
+          </Box>
         </Container>
       </Box>
 
