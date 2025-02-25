@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
-  CardHeader,
   Table,
   TableBody,
   TableCell,
@@ -66,15 +65,8 @@ const OldProject = () => {
       <NavbarHome />
       <Box sx={{ flex: 1 }}>
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-          <Card sx={{ width: '100%', boxShadow: 3 }}>
-            <CardHeader
-              title="Old Project Documents"
-              sx={{
-                textAlign: 'center',
-                bgcolor: '#FF9248',
-                color: 'ฺ#000000',
-              }}
-            />
+          <Card sx={{ width: '100%'}}>
+
             <CardContent>
               {loading ? (
                 <Box
