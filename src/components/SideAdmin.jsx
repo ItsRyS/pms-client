@@ -29,14 +29,17 @@ import api ,{ API_BASE_URL } from '../services/api';
 import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone"
 // Constants
 const drawerWidth = 240;
+
 const COLORS = {
-  drawer: '#FFB38A',
-  divider: '#FFD7B5',
+  navbar: '#FF6700', // สี Navbar
+  drawer: '#FFB38A', // สี Sidebar ที่เหมาะสม
+  divider: '#FFD7B5', // เส้นแบ่งหรือพื้นหลัง Hover
   text: {
-    primary: '#000000',
-    secondary: '#374151',
+    primary: '#000000', // สีข้อความหลัก
+    secondary: '#374151', // สีข้อความรอง
   },
 };
+
 
 // Memoized User Info Component
 const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
