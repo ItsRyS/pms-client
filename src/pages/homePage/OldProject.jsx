@@ -88,7 +88,7 @@ const OldProject = () => {
                 <TableContainer component={Paper} sx={{ maxHeight: 500 }}>
                   <Table stickyHeader>
                     <TableHead>
-                      <TableRow>
+                      <TableRow sx={{ backgroundColor: '#FF6700' }}>
                         <TableCell>Project Name (Thai)</TableCell>
                         <TableCell>Project Name (English)</TableCell>
                         <TableCell>Type</TableCell>

@@ -26,8 +26,8 @@ import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone"
 // Constants
 const drawerWidth = 240;
 const COLORS = {
-  drawer: '#EEEDED',
-  divider: '#374151',
+  drawer: '#FFB38A',
+  divider: '#FFD7B5',
   text: {
     primary: '#000000',
     secondary: '#374151',
