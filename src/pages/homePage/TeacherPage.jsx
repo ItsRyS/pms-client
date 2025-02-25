@@ -7,7 +7,7 @@ import {
   Box,
   Grid,
   Modal,
-  Button,
+ 
   Container,
   TextField,
   Select,
@@ -88,18 +88,18 @@ const TeacherPage = () => {
         <Container
           maxWidth="lg"
           sx={{
-            backgroundColor: '#ffffff',
+
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             marginBlock: '90px',
             justifyContent: 'center',
-            boxShadow: 10,
+
             borderRadius: '12px',
             padding: 0,
           }}
         >
-          
+
             {error && (
               <Typography variant="body1" color="error" sx={{ mb: 3 }}>
                 {error}
@@ -241,13 +241,7 @@ const TeacherPage = () => {
                       <strong>ตำแหน่ง:</strong>{' '}
                       {selectedTeacher.teacher_academic}
                     </Typography>
-                    <Button
-                      onClick={handleClose}
-                      variant="contained"
-                      sx={{ mt: 2 }}
-                    >
-                      ปิด
-                    </Button>
+
                   </>
                 )}
               </Box>

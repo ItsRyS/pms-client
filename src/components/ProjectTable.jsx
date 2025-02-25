@@ -236,6 +236,7 @@ const ProjectTable = ({ rows, loading }) => {
               density="comfortable"
               loading={loading}
               autoHeight
+              overflow="auto"
               sx={{
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: '#f5f5f5',
