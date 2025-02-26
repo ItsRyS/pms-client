@@ -27,6 +27,10 @@ const ProjectTable = ({ rows, loading }) => {
   const [openDocument, setOpenDocument] = useState(false);
   const [documentUrl, setDocumentUrl] = useState('');
   const [documentError, setDocumentError] = useState(false);
+  const [paginationModel, setPaginationModel] = useState({
+    pageSize: 5,
+    page: 0,
+  });
   const { showSnackbar } = useSnackbar();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -229,8 +233,9 @@ const ProjectTable = ({ rows, loading }) => {
             <DataGrid
               rows={filteredRows}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+              pageSizeOptions={[5, 10, 25, 50, 100]}
               disableSelectionOnClick
               getRowId={(row) => row.project_id}
               density="comfortable"
@@ -253,6 +258,20 @@ const ProjectTable = ({ rows, loading }) => {
                 },
                 '& .MuiDataGrid-row:nth-of-type(odd)': {
                   backgroundColor: '#fafafa',
+                },
+                '& .MuiDataGrid-footerContainer': {
+                  backgroundColor: '#f5f5f5',
+                  borderTop: '1px solid #e0e0e0',
+                },
+                // Make pagination controls more visible
+                '& .MuiTablePagination-root': {
+                  color: '#000',
+                },
+                '& .MuiTablePagination-actions button': {
+                  color: theme.palette.primary.main,
+                  '&.Mui-disabled': {
+                    color: 'rgba(0, 0, 0, 0.26)',
+                  },
                 },
                 border: 'none',
               }}
