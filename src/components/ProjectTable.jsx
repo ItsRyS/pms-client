@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { DataGrid, gridPageCountSelector, gridPageSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from '@mui/x-data-grid';
 import Pagination from '@mui/material/Pagination';
 import {
   Box,
@@ -29,16 +35,18 @@ function CustomPagination() {
   const pageCount = useGridSelector(apiRef, gridPageCountSelector);
 
   return (
-    <Box sx={{
-      p: 1,
-      display: 'flex',
-      justifyContent: 'center',
-      width: '100%',
-      '& .MuiPaginationItem-root': {
-        color: 'primary.main',
-        fontWeight: 'medium',
-      },
-    }}>
+    <Box
+      sx={{
+        p: 1,
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+        '& .MuiPaginationItem-root': {
+          color: 'primary.main',
+          fontWeight: 'medium',
+        },
+      }}
+    >
       <Pagination
         color="primary"
         count={pageCount}
@@ -262,8 +270,9 @@ const ProjectTable = ({ rows, loading }) => {
           elevation={3}
           sx={{
             width: '100%',
+            display: 'flex',
             flexDirection: 'column',
-            padding: 2,
+            height: 500,
             overflow: 'hidden',
             backgroundColor: '#fff',
             borderRadius: '8px',
@@ -271,7 +280,7 @@ const ProjectTable = ({ rows, loading }) => {
             mx: 'auto',
           }}
         >
-          <Box sx={{ height: 500, width: '100%' }}>
+          <Box sx={{ flexGrow: 1 }}>
             <DataGrid
               rows={filteredRows}
               columns={columns}
@@ -286,8 +295,7 @@ const ProjectTable = ({ rows, loading }) => {
               getRowId={(row) => row.project_id}
               density="comfortable"
               loading={loading}
-              autoHeight
-              overflow="auto"
+              autoHeight={false}
               sx={{
                 '& .MuiDataGrid-columnHeaders': {
                   backgroundColor: '#f5f5f5',
