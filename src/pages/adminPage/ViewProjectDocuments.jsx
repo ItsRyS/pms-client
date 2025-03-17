@@ -117,8 +117,8 @@ const ViewProjectDocuments = () => {
 
   return (
     <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center' }}>
-        Submitted Project Documents
+      <Typography variant="h4" gutterBottom >
+        หน้าตรวจสอบเอกสารโครงงาน
       </Typography>
 
       <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
@@ -148,13 +148,13 @@ const ViewProjectDocuments = () => {
                     variant="contained"
                     onClick={() =>
                       setSelectedDocument({
-                        url: doc.file_path, // ใช้ URL ตรงจากฐานข้อมูล
+                        url: doc.file_path,
                         name: doc.type_name,
                         document_id: doc.document_id,
                       })
                     }
                   >
-                    View Document
+                    ดูเอกสาร
                   </Button>
                 </TableCell>
               </TableRow>
@@ -171,9 +171,9 @@ const ViewProjectDocuments = () => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: { xs: '95%', md: '80%', lg: '70%' }, // Responsive width
+            width: { xs: '95%', md: '80%', lg: '70%' },
             maxWidth: '1000px',
-            maxHeight: '90vh', // ป้องกัน Modal ล้นจอ
+            maxHeight: '90vh',
             bgcolor: 'background.paper',
             boxShadow: 24,
             borderRadius: 2,
@@ -182,10 +182,9 @@ const ViewProjectDocuments = () => {
           }}
         >
           <Typography variant="h6" gutterBottom>
-            Document Preview: {selectedDocument.name}
+            เอกสาร: {selectedDocument.name}
           </Typography>
 
-          {/* ปรับขนาดของ iframe ให้เต็มที่ตามหน้าจอ */}
           <Box
             sx={{
               width: '100%',
@@ -201,14 +200,14 @@ const ViewProjectDocuments = () => {
             />
           </Box>
 
-          {/* ปุ่มแสดงผลให้จัดเรียงให้เหมาะสม */}
           <Box
             sx={{
               display: 'flex',
-              flexWrap: 'wrap', // ทำให้ปุ่มขึ้นบรรทัดใหม่เมื่อพื้นที่ไม่พอ
+              flexWrap: 'wrap',
               justifyContent: 'center',
               gap: 2,
-              paddingBottom: 2, // เพิ่มช่องว่างขอบล่าง
+              paddingBottom: 2,
+              paddingTop: 1,
             }}
           >
             <Button

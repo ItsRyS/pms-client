@@ -61,7 +61,7 @@ const ProjectRequest = () => {
         const statusResponse = await api.get('/project-requests/status', {
           params: { studentId: user_id },
         });
-        console.log("📌 Project Status Data:", statusResponse.data.data); 
+        console.log("📌 Project Status Data:", statusResponse.data.data);
 
         const statuses = statusResponse.data.data.sort(
           (a, b) => new Date(b.created_at) - new Date(a.created_at)
@@ -197,7 +197,7 @@ const ProjectRequest = () => {
         sx={{ padding: 4, borderRadius: 3, width: '100%', maxWidth: 800 }}
       >
         <Typography variant="h5" gutterBottom>
-          Request a Project
+          ยืนคำร้องขอเปิดโครงงาน
         </Typography>
         {isOwner && latestStatus === 'approved' ? (
           <Box
@@ -225,8 +225,8 @@ const ProjectRequest = () => {
             }}
           >
             <Typography>
-              คุณเป็นสมาชิกของโครงงานอื่นที่อยู่ในสถานะ &quot;pending&quot; หรือ
-              &quot;approved&quot; แล้ว ไม่สามารถส่งคำร้องใหม่ได้
+              คุณเป็นสมาชิกของโครงงานอื่นที่อยู่ในสถานะ &quot;รออนุมัติ&quot; หรือ
+              &quot;ได้รับก่ารอนุมัติ&quot; แล้ว ไม่สามารถส่งคำร้องใหม่ได้
             </Typography>
           </Box>
         ) : null}
@@ -358,7 +358,7 @@ const ProjectRequest = () => {
         sx={{ padding: 4, borderRadius: 3, width: '100%', maxWidth: 800 }}
       >
         <Typography variant="h6" gutterBottom>
-          Document Status
+          ผลการยืนคำร้อง
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {projectStatus.length > 0 ? (

@@ -8,6 +8,7 @@ import {
   Typography,
   CircularProgress,
   Box,
+  Paper,
 } from '@mui/material';
 import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
@@ -61,79 +62,81 @@ const AdminHome = () => {
   }
 
   return (
-    <Container maxWidth="xl">
-     
-      <Grid container spacing={3}>
-        {/* แสดงสถิติ 3 ช่อง (Active Projects, Pending Requests, Pending Documents) */}
-        {[
-          {
-            title: 'โครงงานที่กำลังดำเนินการ',
-            value: dashboardData.activeProjects,
-          },
-          {
-            title: 'คำร้องขอเปิดโครงงาน',
-            value: dashboardData.pendingProjectRequests,
-          },
-          {
-            title: 'เอกสารโครงงานรอตรวจสอบ',
-            value: dashboardData.pendingDocuments,
-          },
-        ].map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card sx={{ textAlign: 'center', padding: 2, boxShadow: 3 }}>
-              <CardContent>
-                <Typography variant="h6">{item.title}</Typography>
-                <Typography variant="h4">{item.value}</Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-        {/* Pie Chart - การกระจายประเภทโครงการ */}
-        <Grid item xs={12} md={8} lg={6} sx={{ mx: 'auto' }}>
-          <Card sx={{ padding: 2, boxShadow: 3 }}>
-            <CardContent>
-              <Typography variant="h6" align="center">
-                Project Type Distribution
-              </Typography>
-              <Box
-                sx={{
-                  width: '100%',
-                  height: { xs: 250, sm: 300, md: 350, lg: 400 },
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <Pie
-                  data={{
-                    labels: dashboardData.projectTypeDistribution.map(
-                      (item) => item.project_type
-                    ),
-                    datasets: [
-                      {
-                        data: dashboardData.projectTypeDistribution.map(
-                          (item) => item.total
+    <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
+      <Container maxWidth="xl" sx={{ borderRadius: 3, padding: 3, backgroundColor: '#FFFFFF' }}>
+        <Box sx={{ width: '100%', borderRadius: 3 }}>
+          <Grid container spacing={3}>
+            {[
+              {
+                title: 'โครงงานที่กำลังดำเนินการ',
+                value: dashboardData.activeProjects,
+              },
+              {
+                title: 'คำร้องขอเปิดโครงงาน',
+                value: dashboardData.pendingProjectRequests,
+              },
+              {
+                title: 'เอกสารโครงงานรอตรวจสอบ',
+                value: dashboardData.pendingDocuments,
+              },
+            ].map((item, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card sx={{ textAlign: 'center', padding: 2, boxShadow: 3 }}>
+                  <CardContent>
+                    <Typography variant="h6">{item.title}</Typography>
+                    <Typography variant="h4">{item.value}</Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+            {/* Pie Chart - การกระจายประเภทโครงการ */}
+            <Grid item xs={12} md={8} lg={6} sx={{ mx: 'auto' }}>
+              <Card sx={{ padding: 2, boxShadow: 3 }}>
+                <CardContent>
+                  <Typography variant="h6" align="center">
+                    Project Type Distribution
+                  </Typography>
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: { xs: 250, sm: 300, md: 350, lg: 400 },
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Pie
+                      data={{
+                        labels: dashboardData.projectTypeDistribution.map(
+                          (item) => item.project_type
                         ),
-                        backgroundColor: [
-                          '#FF6384',
-                          '#36A2EB',
-                          '#FFCE56',
-                          '#4BC0C0',
-                          '#9966FF',
+                        datasets: [
+                          {
+                            data: dashboardData.projectTypeDistribution.map(
+                              (item) => item.total
+                            ),
+                            backgroundColor: [
+                              '#FF6384',
+                              '#36A2EB',
+                              '#FFCE56',
+                              '#4BC0C0',
+                              '#9966FF',
+                            ],
+                          },
                         ],
-                      },
-                    ],
-                  }}
-                  options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                  }}
-                />
-              </Box>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
-    </Container>
+                      }}
+                      options={{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                      }}
+                    />
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    </Paper>
   );
 };
 

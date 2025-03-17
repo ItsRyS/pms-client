@@ -9,9 +9,8 @@ import {
   ListItemText,
   Typography,
   Divider,
-  Avatar,
   Button,
-  Toolbar,
+
   ListItem,
   Skeleton,
 } from '@mui/material';
@@ -25,24 +24,25 @@ import TypeSpecimenTwoToneIcon from "@mui/icons-material/TypeSpecimenTwoTone";
 import AssignmentTurnedInTwoToneIcon from "@mui/icons-material/AssignmentTurnedInTwoTone";
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useSnackbar } from '../components/ReusableSnackbar';
-import api ,{ API_BASE_URL } from '../services/api';
+import api from '../services/api';
 import UploadFileTwoToneIcon from "@mui/icons-material/UploadFileTwoTone"
 // Constants
 const drawerWidth = 240;
 
 const COLORS = {
-  navbar: '#FF6700', // สี Navbar
-  drawer: '#FFB38A', // สี Sidebar ที่เหมาะสม
-  divider: '#FFD7B5', // เส้นแบ่งหรือพื้นหลัง Hover
+  navbar: '#4B49AC', // สี Navbar
+  drawer: '#2f456f', // สี Sidebar ที่เหมาะสม
+  divider: '#eff5fa', // เส้นแบ่งหรือพื้นหลัง Hover
   text: {
-    primary: '#000000', // สีข้อความหลัก
-    secondary: '#374151', // สีข้อความรอง
+    primary: '#FFFFFF', // สีข้อความหลัก
+    secondary: '#FF6700', // สีข้อความรอง
+    iconcolor: '#FF6700', // สีไอคอน
   },
 };
 
 
 // Memoized User Info Component
-const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
+const UserInfo = React.memo(({ username, role, loading }) => (
   <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", padding: 2 }}>
     {loading ? (
       <>
@@ -52,7 +52,7 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
       </>
     ) : (
       <>
-        <Avatar src={profileImage ? `${API_BASE_URL}/${profileImage}` : "/default-avatar.png"} sx={{ width: 100, height: 100 }} />
+
         <Typography variant="body1" sx={{ color: COLORS.text.primary, mt: 1 }}>
           {username}
         </Typography>
@@ -61,7 +61,7 @@ const UserInfo = React.memo(({ username, role, profileImage, loading }) => (
         </Typography>
       </>
     )}
-    <Divider sx={{ width: "100%", mt: 2 }} />
+    <Divider sx={{ width: "100%", mt: 2 , borderColor: COLORS.divider }} />
   </Box>
 ));
 
@@ -110,7 +110,7 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
 
   const drawerContent = (
     <>
-      <Toolbar />
+
       <UserInfo
         username={username}
         role={role}
@@ -120,38 +120,38 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
 
       <List>
         <ListItem>
-          <ListItemText primary="หมวดจัดการ" sx={{ color: COLORS.text.secondary }} />
+          <ListItemText primary="หมวดจัดการ" sx={{ color: COLORS.text.primary }} />
         </ListItem>
-        <List component="div" disablePadding>
+        <List component="div" disablePadding sx={{ color: COLORS.text.primary }}>
           {[
             {
               to: '/adminHome',
               text: 'หน้าหลัก',
-              icon: <DashboardTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <DashboardTwoToneIcon />,
               title: 'หน้าหลัก',
             },
             {
               to: '/adminHome/manage-user',
               text: 'จัดการผู้ใช้',
-              icon: <PeopleAltTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <PeopleAltTwoToneIcon />,
               title: 'จัดการผู้ใช้',
             },
             {
               to: '/adminHome/TeacherInfo',
               text: 'ข้อมูลอาจารย์',
-              icon: <PeopleAltTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <PeopleAltTwoToneIcon />,
               title: 'ข้อมูลอาจารย์',
             },
             {
               to: '/adminHome/upload-doc',
               text: 'เพิ่มแบบฟอร์มเอกสาร',
-              icon: <UploadFileTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <UploadFileTwoToneIcon />,
               title: 'เพิ่มแบบฟอร์มเอกสาร',
             },
             {
               to: '/adminHome/project-types',
               text: 'จัดการประเภทโครงการ',
-              icon: <TypeSpecimenTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <TypeSpecimenTwoToneIcon />,
               title: 'จัดการประเภทโครงการ',
             },
 
@@ -164,8 +164,8 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
               }}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              <ListItemButton onClick={() => setTitle(title)} sx={{ pl: 4 }}>
-                <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemButton onClick={() => setTitle(title)} sx={{ pl: 4, '&:hover': { color: '#FFF4F4' } }}>
+                <ListItemIcon sx={{ color: COLORS.text.iconcolor }}>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
             </NavLink>
@@ -173,7 +173,7 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         </List>
 
         <ListItem>
-          <ListItemText primary="หมวดโครงงาน" sx={{ color: COLORS.text.secondary }} />
+          <ListItemText primary="หมวดโครงงาน" sx={{ color: COLORS.text.primary }} />
         </ListItem>
         <List component="div" disablePadding>
           {[
@@ -181,25 +181,25 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             {
               to: '/adminHome/CheckProject',
               text: 'อนุมัติโครงการ',
-              icon: <CheckCircleTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <CheckCircleTwoToneIcon />,
               title: 'อนุมัติโครงการ',
             },
             {
               to: '/adminHome/ViewProjectDocuments',
               text: 'ตรวจเอกสารโครงงาน',
-              icon: <AssignmentTurnedInTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <AssignmentTurnedInTwoToneIcon />,
               title: 'ตรวจเอกสารโครงงาน',
             },
             {
               to: '/adminHome/release-project',
               text: 'เผยแพร่โครงการ',
-              icon: <NewReleasesTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <NewReleasesTwoToneIcon />,
               title: 'เผยแพร่โครงการ',
             },
             {
               to: '/adminHome/AddOldProject',
               text: 'เพิ่มเอกสารโครงงานเก่า',
-              icon: <NoteAddTwoToneIcon sx={{ color: COLORS.text.secondary }} />,
+              icon: <NoteAddTwoToneIcon />,
               title: 'เพิ่มเอกสารโครงงานเก่า',
             },
           ].map(({ to, text, icon, title }, index) => (
@@ -211,8 +211,8 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
               }}
               style={{ textDecoration: 'none', color: 'inherit' }}
             >
-              <ListItemButton onClick={() => setTitle(title)} sx={{ pl: 4 }}>
-                <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemButton onClick={() => setTitle(title)} sx={{ pl: 4, '&:hover': { color: '#FFF4F4' } }}>
+                <ListItemIcon sx={{ color: COLORS.text.iconcolor }}>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
               </ListItemButton>
             </NavLink>
@@ -220,7 +220,7 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
         </List>
       </List>
 
-      <Divider sx={{ borderColor: COLORS.divider, mt: 2 }} />
+
       <Box sx={{ padding: 2 }}>
         <Button
           variant="contained"
@@ -249,6 +249,8 @@ const SideAdmin = ({ mobileOpen, handleDrawerToggle, setTitle }) => {
             width: drawerWidth,
             padding: 1,
             overflowY: 'auto',
+            backgroundColor: mobileOpen ? '#2f456f' : COLORS.drawer,
+            color: mobileOpen ? '#FFFFFF' : COLORS.text.primary,
           },
         }}
       >

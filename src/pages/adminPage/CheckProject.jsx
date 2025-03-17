@@ -82,7 +82,7 @@ const filteredRequests =
     <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
       <Grid container spacing={2} alignItems="center">
         <Grid item xs={12} md={6}>
-          <Typography variant="h5" gutterBottom>
+          <Typography variant="h4" gutterBottom>
             ตรวจสอบคำร้องโครงงาน
           </Typography>
         </Grid>

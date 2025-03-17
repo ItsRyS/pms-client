@@ -18,10 +18,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Box,
 } from '@mui/material';
 import api from '../../services/api'; // Axios instance
 import { useSearchParams } from 'react-router-dom';
-
 
 const TeacherInfo = () => {
   const [teachers, setTeachers] = useState([]);
@@ -41,6 +41,7 @@ const TeacherInfo = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [teacherToDelete, setTeacherToDelete] = useState(null);
   const [searchParams] = useSearchParams();
+
   useEffect(() => {
     fetchTeachers();
   }, [searchParams]);
@@ -151,13 +152,18 @@ const TeacherInfo = () => {
   };
 
   return (
-    <div>
-      <h1>Teacher Info</h1>
+    <Paper elevation={3} sx={{ padding: 4, borderRadius: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' ,alignItems: 'center',mb: 2}}>
+<Typography variant="h4" gutterBottom>
+        ข้อมูลอาจารย์
+      </Typography>
       <Button variant="contained" color="primary" onClick={handleOpenForm}>
-        Add New Teacher
+        เพิ่มข้อมูลอาจารย์
       </Button>
 
-      <TableContainer component={Paper}>
+      </Box>
+
+      <TableContainer component={Paper} sx={{ marginTop: 2 }}>
         <Table>
           <TableHead>
             <TableRow>
@@ -339,7 +345,7 @@ const TeacherInfo = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
+    </Paper>
   );
 };
 
